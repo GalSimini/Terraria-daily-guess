@@ -1,0 +1,10 @@
+{
+  "source": {
+    "name": "Terraria Information Dataset",
+    "repository": "https://github.com/natan-dot-com/Terraria-Dataset.git",
+    "revision": "51d0b5f1e83c971d16d76e7cbb1364cb3f07d19e",
+    "license": "MIT",
+    "localPath": "data/source/terraria-dataset",
+    "management": "ignored local clone pending submodule decision"
+  }
+}
