@@ -10,7 +10,13 @@ const EntitySchema = z.object({
   aliases: z.array(z.string()),
   kind: z.string(),
   category: z.string(),
-  clueCandidates: z.array(z.object({ source: z.string(), text: z.string().min(1) })),
+  clueCandidates: z.array(
+    z.object({
+      source: z.string(),
+      text: z.string().min(1),
+      origin: z.enum(["base", "curated"]).optional(),
+    }),
+  ),
   eligibleForDaily: z.boolean(),
 });
 const CatalogSchema = z.object({
@@ -42,7 +48,7 @@ export function getDailyTarget(dateKey: string) {
 }
 
 export function getDailyClues(dateKey: string) {
-  return resolveDailyClues(getDailyTarget(dateKey));
+  return resolveDailyClues(getDailyTarget(dateKey), { curatedOnly: true });
 }
 
 export function getCatalogEntity(id: string) {

@@ -95,6 +95,7 @@ interface ClueCandidate {
     | "relationship"
     | "behavior";
   text: string;
+  origin: "base" | "curated";
 }
 ```
 
@@ -115,13 +116,18 @@ an array index as an identifier.
 7. Read curated enrichments only from `data/enrichment/curated-clues.json`.
    Every imported fact needs an entity ID, review record, game version, and
    source provenance. Reject unknown entity IDs and duplicate clue text.
+8. Mark generated enrichment clues as `curated`; unmarked candidates originate
+   from the base dataset. When two candidates have the same clue family, the
+   runtime prioritizes the reviewed curated fact.
 
 ## Eligibility and clue requirements
 
-An entity is eligible only when it has a canonical name, a stable ID, a known
-kind, and five safe, distinct clues. The initial clue sequence should progress
-from broad kind to narrower metadata, source information, a related mechanic,
-and a sanitized tooltip/fact.
+An entity is eligible for the daily pool only when it has a canonical name, a
+stable ID, a known kind, and five safe, distinct **curated** clues. Entities
+with only base-dataset metadata remain searchable but are never selected as a
+daily answer. The initial clue sequence should progress from broad kind to
+narrower metadata, source information, a related mechanic, and a sanitized
+tooltip/fact.
 
 The entity kind and category may be presented as pre-round context. The
 five-round writing progression is defined in [the clue style guide](clue-style.md);

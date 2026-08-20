@@ -1,5 +1,419 @@
 {
   "formatVersion": 1,
   "gameVersion": "1.4.4.9",
-  "entries": []
+  "entries": [
+    {
+      "entityId": "item:4263",
+      "review": {
+        "approvedBy": "GalSimini",
+        "approvedAt": "2026-08-20"
+      },
+      "clues": [
+        {
+          "source": "mechanic",
+          "text": "Using this tool transports the player to the Ocean farthest from their current position.",
+          "reference": {
+            "title": "Magic Conch - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Magic_Conch",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "biome",
+          "text": "One way to find this tool is by exploring Sandstone Chests in the upper Underground Desert.",
+          "reference": {
+            "title": "Magic Conch - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Magic_Conch",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "relationship",
+          "text": "It belongs to a small group of reusable teleportation utilities that includes mirror- and conch-themed items.",
+          "reference": {
+            "title": "Magic Conch - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Magic_Conch",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "sources",
+          "text": "Oasis and Mirage Crates offer alternative routes to obtain this tool through fishing.",
+          "reference": {
+            "title": "Magic Conch - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Magic_Conch",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "progression",
+          "text": "It is one of the ingredients for a combined communication and teleportation utility crafted at a Tinkerer's Workshop.",
+          "reference": {
+            "title": "Magic Conch - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Magic_Conch",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        }
+      ]
+    },
+    {
+      "entityId": "npc:456",
+      "review": {
+        "approvedBy": "GalSimini",
+        "approvedAt": "2026-08-20"
+      },
+      "clues": [
+        {
+          "source": "progression",
+          "text": "This optional encounter is available after Hardmode begins, yet its intended challenge level is far later.",
+          "reference": {
+            "title": "Duke Fishron - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Duke_Fishron",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "behavior",
+          "text": "In Expert and Master worlds, its final phase uses an invisible form between a patterned series of charges.",
+          "reference": {
+            "title": "Duke Fishron - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Duke_Fishron",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "mechanic",
+          "text": "On higher difficulties, a successful hit can apply one of two harmful status effects.",
+          "reference": {
+            "title": "Duke Fishron - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Duke_Fishron",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "biome",
+          "text": "Moving too far from the surface Ocean combat area causes this foe to become dramatically more dangerous.",
+          "reference": {
+            "title": "Duke Fishron - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Duke_Fishron",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "sources",
+          "text": "The encounter begins when a fishing line uses a rare worm as bait at the Ocean.",
+          "reference": {
+            "title": "Duke Fishron - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Duke_Fishron",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        }
+      ]
+    },
+    {
+      "entityId": "npc:59",
+      "review": {
+        "approvedBy": "GalSimini",
+        "approvedAt": "2026-08-20"
+      },
+      "clues": [
+        {
+          "source": "mechanic",
+          "text": "A Lifeform Analyzer can report this rare enemy before it is obvious on screen.",
+          "reference": {
+            "title": "Nymph - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Nymph",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "progression",
+          "text": "Only 25 defeats are needed to complete its Bestiary entry, instead of the common 50.",
+          "reference": {
+            "title": "Nymph - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Nymph",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "behavior",
+          "text": "It first presents itself as a harmless stationary figure, then turns hostile when approached or attacked.",
+          "reference": {
+            "title": "Nymph - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Nymph",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "sources",
+          "text": "Its signature drop is a component in several information-focused accessory upgrades.",
+          "reference": {
+            "title": "Nymph - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Nymph",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "biome",
+          "text": "It can appear in the Cavern layer regardless of the biome overhead.",
+          "reference": {
+            "title": "Nymph - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Nymph",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        }
+      ]
+    },
+    {
+      "entityId": "npc:429",
+      "review": {
+        "approvedBy": "GalSimini",
+        "approvedAt": "2026-08-20"
+      },
+      "clues": [
+        {
+          "source": "progression",
+          "text": "This town resident requires a special rescue before an empty house is enough for a move-in.",
+          "reference": {
+            "title": "Tax Collector - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Tax_Collector",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "biome",
+          "text": "The Snow biome is one of this resident's preferred places to live.",
+          "reference": {
+            "title": "Tax Collector - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Tax_Collector",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "relationship",
+          "text": "This resident appreciates living near the Princess but strongly dislikes Santa Claus.",
+          "reference": {
+            "title": "Tax Collector - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Tax_Collector",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "mechanic",
+          "text": "It earns coins over time from other housed town residents and keeps them until the player collects them.",
+          "reference": {
+            "title": "Tax Collector - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Tax_Collector",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "behavior",
+          "text": "The rescue begins in the Underworld by using Purification Powder on a rare troubled soul.",
+          "reference": {
+            "title": "Tax Collector - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Tax_Collector",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        }
+      ]
+    },
+    {
+      "entityId": "item:169",
+      "review": {
+        "approvedBy": "GalSimini",
+        "approvedAt": "2026-08-20"
+      },
+      "clues": [
+        {
+          "source": "progression",
+          "text": "After Hardmode starts, several biome variants can convert ordinary versions of this block nearby.",
+          "reference": {
+            "title": "Sand Blocks - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Sand_Blocks",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "sources",
+          "text": "This block can become ammunition for a pre-Hardmode ranged weapon.",
+          "reference": {
+            "title": "Sand Blocks - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Sand_Blocks",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "mechanic",
+          "text": "Gravity affects this block, so it does not always stay where a player places it.",
+          "reference": {
+            "title": "Sand Blocks - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Sand_Blocks",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "behavior",
+          "text": "A large enough fall onto a player can cause a damaging suffocation effect.",
+          "reference": {
+            "title": "Sand Blocks - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Sand_Blocks",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "tooltip",
+          "text": "Heating this material turns it into Glass, a building material with many furniture uses.",
+          "reference": {
+            "title": "Sand Blocks - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Sand_Blocks",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        }
+      ]
+    },
+    {
+      "entityId": "item:757",
+      "review": {
+        "approvedBy": "GalSimini",
+        "approvedAt": "2026-08-20"
+      },
+      "clues": [
+        {
+          "source": "progression",
+          "text": "This melee weapon belongs to the Hardmode stage after Plantera has been defeated.",
+          "reference": {
+            "title": "Terra Blade - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Terrablade",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "mechanic",
+          "text": "Each swing combines a close-range aura with a green projectile.",
+          "reference": {
+            "title": "Terra Blade - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Terrablade",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "behavior",
+          "text": "Its projectile can travel through multiple enemies, losing some damage after each target.",
+          "reference": {
+            "title": "Terra Blade - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Terrablade",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "sources",
+          "text": "Its recipe joins upgraded blades associated with light and darkness plus a broken heroic component.",
+          "reference": {
+            "title": "Terra Blade - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Terrablade",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "relationship",
+          "text": "The full crafting path requires obtaining eight different usable swords.",
+          "reference": {
+            "title": "Terra Blade - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Terrablade",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        }
+      ]
+    },
+    {
+      "entityId": "item:785",
+      "review": {
+        "approvedBy": "GalSimini",
+        "approvedAt": "2026-08-20"
+      },
+      "clues": [
+        {
+          "source": "sources",
+          "text": "Crafting this accessory combines Souls of Flight with a rare feather drop.",
+          "reference": {
+            "title": "Harpy Wings - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Harpy_Wings",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "progression",
+          "text": "Its rare feather can appear before Hardmode, but completing the recipe requires a Hardmode ingredient and an advanced anvil.",
+          "reference": {
+            "title": "Giant Harpy Feather - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Giant_Harpy_Feather",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "mechanic",
+          "text": "This accessory grants a little over two seconds of flight time before other mobility bonuses are counted.",
+          "reference": {
+            "title": "Harpy Wings - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Harpy_Wings",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "behavior",
+          "text": "Its base flight reaches 67 tiles and has a maximum horizontal speed of 35 mph.",
+          "reference": {
+            "title": "Harpy Wings - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Harpy_Wings",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        },
+        {
+          "source": "relationship",
+          "text": "The rare component comes from Harpies, which can be farmed above the surface.",
+          "reference": {
+            "title": "Giant Harpy Feather - Official Terraria Wiki",
+            "url": "https://terraria.wiki.gg/wiki/Giant_Harpy_Feather",
+            "license": "CC BY-NC-SA 4.0; original clue wording",
+            "accessedAt": "2026-08-20"
+          }
+        }
+      ]
+    }
+  ]
 }

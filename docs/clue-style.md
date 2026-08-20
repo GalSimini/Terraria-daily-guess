@@ -97,10 +97,11 @@ If an entity cannot support this progression with five safe facts, it remains
 in autocomplete but is not eligible as a daily answer.
 
 At runtime, `src/lib/clue-sequence.ts` is the single server-side resolver for
-the five rounds. It prioritizes enriched facts using these class playbooks. The
-current base catalog has only three non-context facts per eligible entity, so
-it retains category and kind clues as an explicitly temporary fallback until
-curated enrichment coverage replaces them.
+the five rounds. Daily answers use only curated facts; the base catalog remains
+available for autocomplete but never supplies a daily clue. The resolver favors
+distinct fact families before repeating a clue source, so broad metadata cannot
+crowd out a later progression or mechanic clue. A reviewed curated clue also
+takes priority over a generic base candidate from the same fact family.
 
 ## Reviewed references
 

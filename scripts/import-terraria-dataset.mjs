@@ -114,17 +114,26 @@ function npcKind(type, isTownNpc) {
 
 function clueCandidates(entity, enrichmentClues = []) {
   const candidates = [
-    ["kind", `This entity is categorized as ${entity.kind}.`],
-    ["category", `It belongs to the ${entity.category} group.`],
-    entity.rarity ? ["rarity", `Its rarity is ${entity.rarity}.`] : undefined,
+    { source: "kind", text: `This entity is categorized as ${entity.kind}.` },
+    { source: "category", text: `It belongs to the ${entity.category} group.` },
+    entity.rarity
+      ? { source: "rarity", text: `Its rarity is ${entity.rarity}.` }
+      : undefined,
     entity.sources.length
-      ? ["sources", `It can be encountered through ${entity.sources.join(" or ")}.`]
+      ? {
+          source: "sources",
+          text: `It can be encountered through ${entity.sources.join(" or ")}.`,
+        }
       : undefined,
     entity.biomes.length
-      ? ["biome", `It is associated with ${entity.biomes.join(" or ")}.`]
+      ? { source: "biome", text: `It is associated with ${entity.biomes.join(" or ")}.` }
       : undefined,
-    entity.tooltip ? ["tooltip", entity.tooltip] : undefined,
-    ...enrichmentClues.map((clue) => [clue.source, clue.text]),
+    entity.tooltip ? { source: "tooltip", text: entity.tooltip } : undefined,
+    ...enrichmentClues.map((clue) => ({
+      source: clue.source,
+      text: clue.text,
+      origin: "curated",
+    })),
   ].filter(Boolean);
 
   const answerTerms = uniqueStrings([entity.name, ...entity.aliases]).map(
@@ -133,7 +142,7 @@ function clueCandidates(entity, enrichmentClues = []) {
   const seen = new Set();
 
   return candidates
-    .map(([source, text]) => ({ source, text }))
+    .map(({ source, text, origin }) => ({ source, text, origin }))
     .filter(({ text }) => {
       const normalized = normalizeForComparison(text);
       if (!normalized || answerTerms.some((term) => term && normalized.includes(term))) {
@@ -373,6 +382,7 @@ async function main() {
   const catalog = [...entities.values()]
     .map((entity) => {
       const clues = clueCandidates(entity, enrichment.index.get(entity.id));
+      const curatedClues = clues.filter((clue) => clue.origin === "curated");
       return {
         id: entity.id,
         sourceId: entity.sourceId,
@@ -386,7 +396,7 @@ async function main() {
         sources: entity.sources,
         tags: entity.tags,
         clueCandidates: clues,
-        eligibleForDaily: clues.length >= 5,
+        eligibleForDaily: curatedClues.length >= 5,
       };
     })
     .sort((left, right) => left.id.localeCompare(right.id, "en"));
@@ -417,6 +427,10 @@ async function main() {
     entities: {
       total: catalog.length,
       eligibleForDaily: catalog.filter((entity) => entity.eligibleForDaily).length,
+      withFiveCuratedClues: catalog.filter(
+        (entity) =>
+          entity.clueCandidates.filter((clue) => clue.origin === "curated").length >= 5,
+      ).length,
       eligibleByKind,
     },
     enrichment: {

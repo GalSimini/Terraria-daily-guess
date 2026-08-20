@@ -3,12 +3,14 @@ export const DAILY_CLUE_COUNT = 5;
 export type DailyClue = Readonly<{
   source: string;
   text: string;
+  origin?: "base" | "curated";
 }>;
 
 export type DailyClueEntity = Readonly<{
   id: string;
   kind: string;
   category: string;
+  eligibleForDaily?: boolean;
   clueCandidates: readonly DailyClue[];
 }>;
 
@@ -63,15 +65,25 @@ function rankClue(source: string, profile: ClueProfile) {
   return 99;
 }
 
+function rankOrigin(clue: DailyClue) {
+  return clue.origin === "curated" ? 0 : 1;
+}
+
 /**
  * Produces the server-side five-round order. Enrichment facts are prioritized
  * by entity class; legacy category/kind candidates remain as a temporary
  * fallback while the base catalog is being enriched.
  */
-export function resolveDailyClues(entity: DailyClueEntity): readonly DailyClue[] {
+export function resolveDailyClues(
+  entity: DailyClueEntity,
+  options: Readonly<{ curatedOnly?: boolean }> = {},
+): readonly DailyClue[] {
   const profile = getProfile(entity);
   const seen = new Set<string>();
-  const distinct = entity.clueCandidates.filter((clue) => {
+  const candidates = options.curatedOnly
+    ? entity.clueCandidates.filter((clue) => clue.origin === "curated")
+    : entity.clueCandidates;
+  const distinct = candidates.filter((clue) => {
     const normalized = normalize(clue.text);
     if (!normalized || seen.has(normalized)) return false;
     seen.add(normalized);
@@ -79,15 +91,32 @@ export function resolveDailyClues(entity: DailyClueEntity): readonly DailyClue[]
   });
 
   if (distinct.length < DAILY_CLUE_COUNT) {
-    throw new Error(`${entity.id} does not have ${DAILY_CLUE_COUNT} distinct clues.`);
+    const scope = options.curatedOnly ? "curated " : "";
+    throw new Error(`${entity.id} does not have ${DAILY_CLUE_COUNT} distinct ${scope}clues.`);
   }
 
-  return distinct
+  const ordered = distinct
     .map((clue, index) => ({ clue, index }))
     .sort((left, right) => {
       const rankDifference = rankClue(left.clue.source, profile) - rankClue(right.clue.source, profile);
-      return rankDifference || left.index - right.index;
-    })
-    .slice(0, DAILY_CLUE_COUNT)
-    .map(({ clue }) => clue);
+      const originDifference = rankOrigin(left.clue) - rankOrigin(right.clue);
+      return rankDifference || originDifference || left.index - right.index;
+    });
+  const usedSources = new Set<string>();
+  const sequence: DailyClue[] = [];
+
+  for (const { clue } of ordered) {
+    if (usedSources.has(clue.source)) continue;
+    sequence.push(clue);
+    usedSources.add(clue.source);
+    if (sequence.length === DAILY_CLUE_COUNT) return sequence;
+  }
+
+  for (const { clue } of ordered) {
+    if (sequence.includes(clue)) continue;
+    sequence.push(clue);
+    if (sequence.length === DAILY_CLUE_COUNT) return sequence;
+  }
+
+  throw new Error(`${entity.id} could not produce ${DAILY_CLUE_COUNT} ordered clues.`);
 }

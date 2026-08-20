@@ -63,6 +63,51 @@ describe("resolveDailyClues", () => {
     ]);
   });
 
+  it("uses distinct clue families before repeating one", () => {
+    const clues = resolveDailyClues(
+      entity({
+        kind: "item",
+        category: "tool",
+        clueCandidates: [
+          { source: "mechanic", text: "Mechanic clue." },
+          { source: "biome", text: "Biome clue." },
+          { source: "relationship", text: "Relationship clue." },
+          { source: "sources", text: "Generic source clue." },
+          { source: "sources", text: "Specific source clue." },
+          { source: "progression", text: "Progression clue." },
+        ],
+      }),
+    );
+
+    expect(clues.map((clue) => clue.text)).toEqual([
+      "Mechanic clue.",
+      "Biome clue.",
+      "Relationship clue.",
+      "Generic source clue.",
+      "Progression clue.",
+    ]);
+  });
+
+  it("prefers a curated fact over a generic base fact from the same family", () => {
+    const clues = resolveDailyClues(
+      entity({
+        kind: "item",
+        category: "tool",
+        clueCandidates: [
+          { source: "mechanic", text: "Mechanic clue." },
+          { source: "biome", text: "Biome clue." },
+          { source: "relationship", text: "Relationship clue." },
+          { source: "sources", text: "Generic source clue.", origin: "base" },
+          { source: "sources", text: "Curated source clue.", origin: "curated" },
+          { source: "progression", text: "Progression clue." },
+        ],
+      }),
+    );
+
+    expect(clues.map((clue) => clue.text)).toContain("Curated source clue.");
+    expect(clues.map((clue) => clue.text)).not.toContain("Generic source clue.");
+  });
+
   it("rejects an entity without five distinct clues", () => {
     expect(() =>
       resolveDailyClues(
@@ -75,5 +120,22 @@ describe("resolveDailyClues", () => {
         }),
       ),
     ).toThrow("npc:1 does not have 5 distinct clues.");
+  });
+
+  it("requires five curated clues when resolving a daily answer", () => {
+    expect(() =>
+      resolveDailyClues(
+        entity({
+          clueCandidates: [
+            { source: "mechanic", text: "Curated clue.", origin: "curated" },
+            { source: "biome", text: "Base clue." },
+            { source: "relationship", text: "Base clue." },
+            { source: "sources", text: "Base source clue." },
+            { source: "progression", text: "Base progression clue." },
+          ],
+        }),
+        { curatedOnly: true },
+      ),
+    ).toThrow("npc:1 does not have 5 distinct curated clues.");
   });
 });

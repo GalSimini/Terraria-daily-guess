@@ -46,6 +46,20 @@ The importer rejects unknown IDs, duplicate enrichment text, and any clue
 containing the answer name or an alias. This preserves a reproducible audit
 trail without automatically scraping or redistributing third-party content.
 
+## Initial curated pack
+
+The first pack covers one representative from each currently defined clue
+profile: Tool, Boss, Enemy, Town NPC, Block, Weapon, and Accessory. Its seven
+entries are a quality benchmark for source provenance, original wording,
+five-round progression, and spoiler filtering. The exact source records are
+stored beside each clue in `data/enrichment/curated-clues.json`; the generated
+catalog contains only the validated clue text needed at runtime.
+
+Only entries with five curated clues are eligible for the daily selection pool.
+Catalog expansion is therefore the primary data priority: add reviewed facts
+across complementary sources, resolve conflicts explicitly, and increase the
+number of complete five-round sequences before widening the daily pool.
+
 ## Sources to review
 
 - [Terraria Wiki.gg NPC drops](https://terraria.wiki.gg/wiki/NPC_drops)
