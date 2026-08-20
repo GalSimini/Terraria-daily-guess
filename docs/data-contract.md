@@ -83,7 +83,17 @@ interface TerrariaEntity {
 }
 
 interface ClueCandidate {
-  source: "kind" | "category" | "rarity" | "sources" | "biome" | "tooltip";
+  source:
+    | "kind"
+    | "category"
+    | "rarity"
+    | "sources"
+    | "biome"
+    | "tooltip"
+    | "mechanic"
+    | "progression"
+    | "relationship"
+    | "behavior";
   text: string;
 }
 ```
@@ -102,6 +112,9 @@ an array index as an identifier.
 5. Write a checksum, import timestamp, source revision, accepted count,
    rejected count, and rejection reasons to the generated report.
 6. Fail the build when identity data is invalid or duplicated.
+7. Read curated enrichments only from `data/enrichment/curated-clues.json`.
+   Every imported fact needs an entity ID, review record, game version, and
+   source provenance. Reject unknown entity IDs and duplicate clue text.
 
 ## Eligibility and clue requirements
 
@@ -110,9 +123,17 @@ kind, and five safe, distinct clues. The initial clue sequence should progress
 from broad kind to narrower metadata, source information, a related mechanic,
 and a sanitized tooltip/fact.
 
+The entity kind and category may be presented as pre-round context. The
+five-round writing progression is defined in [the clue style guide](clue-style.md);
+the importer must still reject entities that cannot produce five safe, distinct
+facts from the available reviewed data.
+
 Before displaying a clue, normalize the answer name and all aliases, then
 reject text containing any of them. Exclude entities whose source coverage
 cannot support the sequence; do not fill gaps with guessed information.
 
 See [the current data quality report](data-quality.md) for the measured
 coverage of the pinned source revision.
+
+The enrichment fixture format and authoring rules live in
+[`data/enrichment/README.md`](../data/enrichment/README.md).

@@ -25,18 +25,17 @@
   for game data.
 - Add rate limits, body-size limits, and stable errors to every future API
   route.
-- Add a Privacy Policy, Cookie Policy, Terms, Contact page, and fan-project
-  disclaimer before analytics or ads are enabled.
-- Review Terraria/Re-Logic trademark, asset, data, and commercial-use rules
-  before launch.
+- Add a Privacy Policy, Terms, Contact page, attribution page, and fan-project
+  disclaimer before a public release.
+- Review Terraria/Re-Logic trademark, asset, and data-use rules before launch.
 - Run dependency updates and vulnerability review continuously.
 
-## Ads and analytics
+## Deferred monetization and analytics
 
-Google AdSense and analytics are not enabled by this repository. Before any
-third-party script is introduced, document its domains and data purpose,
-implement user consent where required, update CSP, reserve layout space to
-avoid layout shift, and test the live policy in production.
+Monetization and analytics are not enabled and are out of scope for the
+current non-commercial product. Before any third-party script is proposed,
+document its domains and data purpose, update CSP, assess consent requirements,
+and obtain explicit human approval.
 
 ## Incident rule
 

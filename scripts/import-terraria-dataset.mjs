@@ -4,10 +4,18 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 
+import { createEnrichmentIndex } from "./enrichment-contract.mjs";
+
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
 const manifestPath = path.join(projectRoot, "data", "source-manifest.json");
 const generatedDirectory = path.join(projectRoot, "data", "generated");
+const enrichmentPath = path.join(
+  projectRoot,
+  "data",
+  "enrichment",
+  "curated-clues.json",
+);
 
 const ManifestSchema = z.object({
   source: z.object({
@@ -104,7 +112,7 @@ function npcKind(type, isTownNpc) {
   return "other";
 }
 
-function clueCandidates(entity) {
+function clueCandidates(entity, enrichmentClues = []) {
   const candidates = [
     ["kind", `This entity is categorized as ${entity.kind}.`],
     ["category", `It belongs to the ${entity.category} group.`],
@@ -116,6 +124,7 @@ function clueCandidates(entity) {
       ? ["biome", `It is associated with ${entity.biomes.join(" or ")}.`]
       : undefined,
     entity.tooltip ? ["tooltip", entity.tooltip] : undefined,
+    ...enrichmentClues.map((clue) => [clue.source, clue.text]),
   ].filter(Boolean);
 
   const answerTerms = uniqueStrings([entity.name, ...entity.aliases]).map(
@@ -173,6 +182,7 @@ function addEntity(entities, entity) {
 
 async function main() {
   const manifest = await readJson(manifestPath, ManifestSchema);
+  const enrichment = createEnrichmentIndex(await readJson(enrichmentPath, z.unknown()));
   const sourceDirectory = path.resolve(projectRoot, manifest.source.localPath);
   const jsonDirectory = path.join(sourceDirectory, "json");
   const itemReferenceRecords = await readJson(
@@ -354,9 +364,15 @@ async function main() {
     }
   }
 
+  for (const entityId of enrichment.index.keys()) {
+    if (!entities.has(entityId)) {
+      throw new Error(`Enrichment references an unknown entity ID: ${entityId}.`);
+    }
+  }
+
   const catalog = [...entities.values()]
     .map((entity) => {
-      const clues = clueCandidates(entity);
+      const clues = clueCandidates(entity, enrichment.index.get(entity.id));
       return {
         id: entity.id,
         sourceId: entity.sourceId,
@@ -402,6 +418,15 @@ async function main() {
       total: catalog.length,
       eligibleForDaily: catalog.filter((entity) => entity.eligibleForDaily).length,
       eligibleByKind,
+    },
+    enrichment: {
+      formatVersion: enrichment.document.formatVersion,
+      gameVersion: enrichment.document.gameVersion,
+      entries: enrichment.document.entries.length,
+      clues: [...enrichment.index.values()].reduce(
+        (total, clues) => total + clues.length,
+        0,
+      ),
     },
     rejections: Object.fromEntries(
       [...reasonCounts.entries()].sort(([left], [right]) => left.localeCompare(right, "en")),

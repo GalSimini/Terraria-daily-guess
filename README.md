@@ -23,6 +23,14 @@ Run all currently configured quality checks with:
 npm run ci
 ```
 
+## Current gameplay
+
+- Five-round daily puzzle with a UTC reset countdown.
+- Fuzzy autocomplete over the normalized entity catalog.
+- Server-side clue delivery and guess validation.
+- Local streaks, win rate, guess distribution, reset controls, and
+  spoiler-free result sharing.
+
 ## Documentation
 
 - [Project foundation](PROJECT_FOUNDATION.md)
@@ -43,5 +51,6 @@ reviewable runtime artifact used by the application.
 ## Disclaimer
 
 Terraria Daily Guess is an independent fan project and is not affiliated with
-or endorsed by Re-Logic. Final branding, data-use, and monetization decisions
-require a separate legal and policy review before launch.
+or endorsed by Re-Logic. The current scope is explicitly non-commercial;
+monetization is deferred pending a separate legal and policy review. See the
+[content attribution policy](docs/content-attribution.md) for data-use rules.

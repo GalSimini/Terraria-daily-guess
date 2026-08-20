@@ -36,3 +36,6 @@ reliable content rather than a misleadingly broad catalog.
 3. Build a clue-quality review tool that samples each eligible entity.
 4. Add versioned import tests covering malformed files, ID joins, duplicates,
    spoiler detection, and reproducible checksums.
+
+See [data enrichment evaluation](data-enrichment.md) for the reviewed source
+options and the safe integration sequence.

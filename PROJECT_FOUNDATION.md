@@ -16,7 +16,7 @@ All source code, technical documentation, product copy, tests, pull-request text
 - Local statistics: streak, wins, losses, win rate, and guess distribution.
 - Spoiler-free sharing.
 - Responsive and accessible web experience.
-- Advertising-ready pages without letting ads interfere with gameplay.
+- High-quality, evidence-based clues and a polished player experience.
 
 ### Explicitly out of scope for the MVP
 
@@ -24,6 +24,7 @@ All source code, technical documentation, product copy, tests, pull-request text
 - Multiplayer or real-time features.
 - User-generated content.
 - Paid game advantages.
+- Advertising, affiliate links, sponsorships, and other monetization.
 - Guessing entities with incomplete or low-quality source data.
 
 ## 2. Recommended Architecture
@@ -168,7 +169,8 @@ Use path aliases (`@/components`, `@/features`, `@/lib`) and keep domain logic i
 Security requirements are part of the definition of done for every feature.
 
 - Enable HTTPS only, HSTS, and secure redirect handling.
-- Add a strict Content Security Policy. Configure Google AdSense domains deliberately; never use broad `unsafe-inline` or wildcard origins just to make ads work.
+- Add a strict Content Security Policy. Do not add third-party script origins
+  without a documented product and security need.
 - Set `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, and frame protections appropriate to the ad integration.
 - Validate all external data at import time and every untrusted browser value at runtime.
 - Render entity names and tooltips as plain text. Never inject dataset or user strings with `dangerouslySetInnerHTML`.
@@ -176,22 +178,20 @@ Security requirements are part of the definition of done for every feature.
 - Rate-limit any future API route; set body-size limits and stable error responses.
 - Use dependency lockfiles, Dependabot/Renovate, secret scanning, npm audit in CI, and pinned GitHub Actions versions.
 - Keep production secrets in the hosting platform. Exclude `.env*` from commits except documented `.env.example` placeholders.
-- Collect the minimum analytics data, publish a Privacy Policy and Cookie Policy before ads/analytics go live, and offer consent controls where required.
-- Add a Terms of Use page and a clear fan-project disclaimer. Review Terraria/Re-Logic branding, asset, and data licensing before using names, logos, screenshots, or upstream data commercially.
+- Do not add analytics or tracking before a separate privacy review.
+- Add a Terms of Use page, attribution page, and a clear fan-project disclaimer
+  before any public release. Review Terraria/Re-Logic branding, asset, and
+  data licensing before using names, logos, screenshots, or upstream data.
 - Build accessible UI: keyboard navigation, focus states, semantic labels, contrast, reduced-motion support, and screen-reader announcements for guesses/clues.
 
-## 6. Google Ads Monetization Plan
+## 6. Deferred Monetization
 
-Ads should be introduced only after the gameplay experience, legal pages, and content quality are ready for review.
+Monetization is not part of the current product plan. The project prioritizes
+gameplay quality, accessibility, data accuracy, and player experience.
 
-1. Add durable content pages: About, How to Play, Privacy Policy, Cookie Policy, Terms, Contact, and a Terraria fan-project disclaimer.
-2. Obtain approval for the production domain under Google AdSense policies.
-3. Keep ad slots outside the guess input, buttons, and primary clue flow. Reserve layout space to prevent Cumulative Layout Shift.
-4. Load ads after consent where needed and avoid ad refreshes, incentivized clicks, misleading labels, or traffic-buying schemes.
-5. Measure Core Web Vitals and disable/reposition placements that harm usability.
-6. Avoid ads on error pages, empty states, or pages with insufficient original content.
-
-Do not commit the AdSense client ID as a secret—it is public configuration—but keep it environment-specific and make its rendering conditional on production plus a consent decision.
+Any future monetization proposal is a new product decision. It must include an
+updated licensing review, privacy review, consent design, CSP review, user
+experience assessment, and explicit human approval before implementation.
 
 ## 7. AI Harness Development Method
 
@@ -247,16 +247,15 @@ A feature is complete only when its acceptance criteria pass, type checks/lint/t
 
 ### Phase 3 — Production hardening
 
-- Configure hosting, custom domain, headers, error monitoring, analytics consent, and CI preview deployments.
+- Configure hosting, custom domain, headers, error monitoring, and CI preview deployments.
 - Run security/dependency/accessibility/performance checks.
 - Validate mobile experience and global UTC rollover.
 - Launch a small closed beta and fix observed data/clue quality problems.
 
-### Phase 4 — Monetization and iteration
+### Phase 4 — Quality iteration
 
-- Apply for AdSense after legal/content readiness.
-- Introduce restrained, layout-stable placements.
-- Monitor performance, errors, and retention without collecting unnecessary personal data.
+- Expand reviewed clue coverage and improve category-specific clue quality.
+- Monitor performance and errors with minimum necessary data collection.
 - Add new entity packs only through the validated dataset pipeline.
 
 ## 9. Immediate Next Actions
@@ -275,5 +274,6 @@ A feature is complete only when its acceptance criteria pass, type checks/lint/t
 - Raw external data is never served directly to users; the reviewed normalized
   catalog is the deployable runtime artifact.
 - The game begins local-first, with no account system or personal-data backend.
-- Ads are a post-readiness production phase and must respect privacy, security, performance, and platform policies.
+- Monetization is deferred; the current product scope is non-commercial and
+  quality-focused.
 - The Terraria dataset must be inspected and version-pinned before any clue implementation.
