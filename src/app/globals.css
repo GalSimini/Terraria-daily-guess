@@ -1,26 +1,276 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --sky-top: #72caee;
+  --sky-middle: #afeaff;
+  --sky-bottom: #e8f8db;
+  --cloud: rgb(255 255 255 / 58%);
+  --mountain: #5fa38d;
+  --mountain-shadow: #3d7a72;
+  --ground: #5b9949;
+  --ground-deep: #274f3d;
+  --panel: rgb(13 42 46 / 82%);
+  --panel-solid: #103e43;
+  --panel-muted: #143f43;
+  --border: rgb(207 255 194 / 35%);
+  --foreground: #f7ffe9;
+  --muted: #c2ddcf;
+  --accent: #d9ff73;
+  --accent-strong: #75e3aa;
+  --accent-ink: #0d2a2f;
+  --warning: #ffe29b;
+  --input: rgb(7 30 35 / 88%);
+  --locked: rgb(6 29 34 / 55%);
+  --focus-ring: #fff4a5;
 }
 
 @theme inline {
-  --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root[data-theme="night"] {
+  --sky-top: #101f5b;
+  --sky-middle: #26427c;
+  --sky-bottom: #6b78a4;
+  --cloud: rgb(209 218 255 / 15%);
+  --mountain: #243a63;
+  --mountain-shadow: #152440;
+  --ground: #29495a;
+  --ground-deep: #112d3a;
+  --panel: rgb(8 20 43 / 86%);
+  --panel-solid: #101f43;
+  --panel-muted: #172951;
+  --border: rgb(179 200 255 / 32%);
+  --foreground: #f4f5ff;
+  --muted: #c5ceed;
+  --accent: #f0df8d;
+  --accent-strong: #a8caff;
+  --accent-ink: #152042;
+  --warning: #ffd99e;
+  --input: rgb(7 15 36 / 88%);
+  --locked: rgb(9 19 39 / 58%);
+  --focus-ring: #fbec9b;
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.game-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 26rem 8rem at 12% 19%, var(--cloud) 0 18%, transparent 19%),
+    radial-gradient(ellipse 20rem 6rem at 72% 11%, var(--cloud) 0 18%, transparent 19%),
+    radial-gradient(ellipse 32rem 9rem at 105% 32%, var(--cloud) 0 18%, transparent 19%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-middle) 53%, var(--sky-bottom) 100%);
+}
+
+.game-shell::before,
+.game-shell::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.game-shell::before {
+  height: 46vh;
+  opacity: 0.95;
+  background:
+    linear-gradient(145deg, transparent 0 21%, var(--mountain-shadow) 21.3% 32%, transparent 32.4%) 0 100% / 30rem 18rem repeat-x,
+    linear-gradient(35deg, transparent 0 34%, var(--mountain) 34.4% 49%, transparent 49.4%) 8rem 100% / 32rem 19rem repeat-x;
+}
+
+.game-shell::after {
+  height: 20vh;
+  min-height: 8rem;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 1.8rem, rgb(255 255 255 / 8%) 1.8rem 2rem),
+    linear-gradient(180deg, var(--ground) 0 16%, var(--ground-deep) 17% 100%);
+  border-top: 0.35rem solid rgb(220 255 151 / 62%);
+}
+
+.game-content {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 2rem, 52rem);
+  margin: 0 auto;
+  padding: clamp(2rem, 7vw, 4.5rem) 0 10rem;
+}
+
+.game-title,
+.pixel-label,
+.theme-toggle,
+.game-button {
+  font-family: var(--font-pixel), var(--font-geist-mono), monospace;
+}
+
+.game-title {
+  color: var(--foreground);
+  font-size: clamp(1.8rem, 6vw, 3.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.06em;
+  text-shadow: 0.14rem 0.16rem 0 var(--accent-ink), 0 0 1.4rem rgb(255 255 255 / 24%);
+}
+
+.game-card {
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--panel);
+  box-shadow: 0 1.4rem 3rem rgb(5 19 24 / 22%);
+  backdrop-filter: blur(0.8rem);
+}
+
+.game-card--context {
+  border-color: color-mix(in srgb, var(--accent-strong) 62%, transparent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--panel-solid) 75%, transparent), var(--panel));
+}
+
+.pixel-label {
+  color: var(--accent);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.muted-text {
+  color: var(--muted);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.85rem;
+  color: var(--foreground);
+  font-size: 0.7rem;
+  line-height: 1;
+  background: rgb(5 20 32 / 24%);
+  border: 1px solid rgb(255 255 255 / 34%);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+.theme-toggle:hover {
+  background: rgb(5 20 32 / 40%);
+  transform: translateY(-0.1rem);
+}
+
+.theme-toggle__icon {
+  color: var(--accent);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 1.25rem;
+  line-height: 0.7;
+}
+
+.game-input {
+  min-width: 0;
+  color: var(--foreground);
+  background: var(--input);
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+}
+
+.game-input::placeholder {
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+
+.game-button {
+  border-radius: 0.7rem;
+  cursor: pointer;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.game-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-0.1rem);
+}
+
+.game-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.game-button--primary {
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+}
+
+.game-button--secondary {
+  color: var(--accent-ink);
+  background: var(--foreground);
+}
+
+.clue-card {
+  border-radius: 0.7rem;
+  background: var(--panel-muted);
+}
+
+.clue-card--locked {
+  color: color-mix(in srgb, var(--muted) 62%, transparent);
+  background: var(--locked);
+}
+
+.search-results {
+  background: color-mix(in srgb, var(--panel-solid) 88%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+}
+
+.search-result {
+  color: var(--foreground);
+}
+
+.search-result:hover,
+.search-result:focus-visible {
+  background: color-mix(in srgb, var(--accent-strong) 17%, transparent);
+}
+
+.attempt-empty {
+  color: color-mix(in srgb, var(--muted) 62%, transparent);
+  border-color: color-mix(in srgb, var(--border) 72%, transparent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 40rem) {
+  .game-shell::before {
+    height: 34vh;
+  }
+
+  .game-title {
+    font-size: clamp(1.65rem, 9vw, 2.25rem);
+  }
+
+  .theme-toggle__label {
+    display: none;
+  }
 }

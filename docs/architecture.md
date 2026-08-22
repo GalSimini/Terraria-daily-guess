@@ -43,7 +43,8 @@ Browser UI ◄── Next.js App Router ◄── daily selector + clue engine
 5. The server renders the first clue and exposes server routes for subsequent
    clues and final guess validation.
 6. The browser receives searchable entity metadata only. Local state stores
-   progress and statistics with a versioned schema.
+   progress, statistics, and a non-sensitive day/night theme preference with a
+   versioned schema where applicable.
 
 ## Daily game boundary
 
