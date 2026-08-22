@@ -41,20 +41,26 @@ Browser UI ◄── Next.js App Router ◄── daily selector + clue engine
 4. The application creates the global date key using UTC and deterministically
    selects one entity from a stable ID-sorted catalog.
 5. The server renders the first clue and exposes server routes for subsequent
-   clues and final guess validation.
-6. The browser receives searchable entity metadata only. Local state stores
-   progress and statistics with a versioned schema.
+   clues and final guess validation. A signed, HTTP-only daily-session cookie
+   authorizes clue rounds and server-derived attempts.
+6. The browser receives searchable entity metadata only. Local state mirrors
+   progress for presentation and stores statistics with a versioned schema; it
+   is not authoritative for API progression.
 
 ## Daily game boundary
 
-`GET /api/daily/clue` validates the requested UTC date and round, then returns
-only that round's clue. `POST /api/daily/guess` validates the date, attempt
-number, and entity ID, then resolves correctness on the server. The target ID
-and the full clue sequence are not passed as client component properties.
+`GET /api/daily/clue` validates the requested UTC date and checks the requested
+round against the signed daily-session cookie before returning one clue.
+`POST /api/daily/guess` validates same-origin JSON input, the date, entity ID,
+and the client-visible attempt count against that signed state. It derives the
+next attempt and any loss result on the server. The target ID and the full clue
+sequence are not passed as client component properties.
 
-The browser keeps attempts and streaks locally for the MVP. This means a user
-can still alter local browser state; a future competitive leaderboard requires
-an authenticated server-side session and a separate abuse-prevention design.
+The browser keeps its display state and statistics locally for the MVP. A
+signed session prevents modifying a cookie to request a future clue or claim a
+fifth attempt, but can still be discarded or replayed by a determined user.
+A future competitive leaderboard or multi-instance deployment requires durable
+server-side session storage and a separate abuse-prevention design.
 
 ## Daily puzzle invariants
 

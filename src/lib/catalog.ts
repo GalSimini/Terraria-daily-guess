@@ -2,7 +2,7 @@ import catalogData from "../../data/generated/catalog.json";
 import { z } from "zod";
 
 import { resolveDailyClues } from "@/lib/clue-sequence";
-import { selectDailyPuzzle } from "@/lib/daily-puzzle";
+import { getDailyPuzzleSeed, selectDailyPuzzle } from "@/lib/daily-puzzle";
 
 const EntitySchema = z.object({
   id: z.string().min(1),
@@ -40,7 +40,7 @@ export function getDailyTarget(dateKey: string) {
     catalogVersion: catalog.catalogVersion,
     dateKey,
     entities: catalog.entities,
-    seed: process.env.DAILY_PUZZLE_SEED ?? "development-only-daily-seed",
+    seed: getDailyPuzzleSeed(),
   });
   const target = catalog.entities.find((entity) => entity.id === selection.entityId);
   if (!target) throw new Error("The selected daily target is missing from the catalog.");

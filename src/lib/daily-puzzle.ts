@@ -9,6 +9,7 @@ export type DailyPuzzleSelection = Readonly<{
 }>;
 
 const UTC_DATE_KEY = /^\d{4}-\d{2}-\d{2}$/;
+const DEVELOPMENT_DAILY_PUZZLE_SEED = "development-only-daily-seed";
 
 export function getUtcDateKey(date: Date): string {
   if (Number.isNaN(date.getTime())) {
@@ -16,6 +17,18 @@ export function getUtcDateKey(date: Date): string {
   }
 
   return date.toISOString().slice(0, 10);
+}
+
+export function resolveDailyPuzzleSeed(environment: string | undefined, configuredSeed: string | undefined): string {
+  const seed = configuredSeed?.trim();
+  if (environment === "production" && (!seed || seed === DEVELOPMENT_DAILY_PUZZLE_SEED)) {
+    throw new Error("DAILY_PUZZLE_SEED must be configured in production.");
+  }
+  return seed || DEVELOPMENT_DAILY_PUZZLE_SEED;
+}
+
+export function getDailyPuzzleSeed(): string {
+  return resolveDailyPuzzleSeed(process.env.NODE_ENV, process.env.DAILY_PUZZLE_SEED);
 }
 
 function hashToUint32(value: string): number {

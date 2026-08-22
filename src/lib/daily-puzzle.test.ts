@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getUtcDateKey, selectDailyPuzzle } from "./daily-puzzle";
+import { getUtcDateKey, resolveDailyPuzzleSeed, selectDailyPuzzle } from "./daily-puzzle";
 
 const entities = [
   { id: "item:3", eligibleForDaily: true },
@@ -53,5 +53,13 @@ describe("selectDailyPuzzle", () => {
         seed: "",
       }),
     ).toThrow("dateKey");
+  });
+});
+
+describe("daily puzzle seed configuration", () => {
+  it("requires a non-development seed in production", () => {
+    expect(() => resolveDailyPuzzleSeed("production", undefined)).toThrow("DAILY_PUZZLE_SEED");
+    expect(() => resolveDailyPuzzleSeed("production", "development-only-daily-seed")).toThrow("DAILY_PUZZLE_SEED");
+    expect(resolveDailyPuzzleSeed("production", "production-only-seed")).toBe("production-only-seed");
   });
 });

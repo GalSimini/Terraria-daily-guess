@@ -27,8 +27,8 @@ npm run ci
 
 - Five-round daily puzzle with a UTC reset countdown.
 - Fuzzy autocomplete over the normalized entity catalog.
-- Server-side clue delivery and guess validation using only reviewed curated
-  entities as daily answers.
+- Server-side clue delivery and guess validation with signed daily-session
+  progress, using only reviewed curated entities as daily answers.
 - Local streaks, win rate, guess distribution, reset controls, and
   spoiler-free result sharing.
 
@@ -39,6 +39,7 @@ npm run ci
 - [Dataset contract](docs/data-contract.md)
 - [Data quality report](docs/data-quality.md)
 - [Security baseline](docs/security.md)
+- [Interface and security test plan](docs/interface-security-test-plan.md)
 - [Contribution guide](CONTRIBUTING.md)
 
 ## Dataset
