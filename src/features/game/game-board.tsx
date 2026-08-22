@@ -27,12 +27,13 @@ type Props = Readonly<{
   entities: readonly SearchEntity[];
   entityContext: Readonly<{ kind: string; category: string }>;
   initialClue: string;
+  initialNow: number;
 }>;
 
-const gameKey = (dateKey: string) => `terraria-daily-guess:game:${dateKey}`;
+const gameKey = (dateKey: string) => `terraria-daily-guess:game:v2:${dateKey}`;
 const statsKey = "terraria-daily-guess:stats";
 
-export function GameBoard({ dateKey, entities, entityContext, initialClue }: Props) {
+export function GameBoard({ dateKey, entities, entityContext, initialClue, initialNow }: Props) {
   const [game, setGame] = useState<GameState>(() => createGameState(dateKey));
   const [stats, setStats] = useState<PlayerStats>(createPlayerStats);
   const [clues, setClues] = useState([initialClue]);
@@ -43,7 +44,7 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue }: Pro
   const [busy, setBusy] = useState(false);
   const [clueLoading, setClueLoading] = useState(false);
   const [ready, setReady] = useState(false);
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(initialNow);
 
   const selected = entities.find((entity) => entity.id === selectedId);
   const fuse = useMemo(
@@ -119,14 +120,18 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue }: Pro
       const response = await fetch("/api/daily/guess", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dateKey, guessId: selected.id, attemptCount: game.guesses.length + 1 }),
+        body: JSON.stringify({ dateKey, guessId: selected.id, expectedAttemptCount: game.guesses.length }),
       });
-      const result: { correct?: boolean; answer?: { name: string }; error?: string } = await response.json();
+      const result: { correct?: boolean; answer?: { name: string }; attemptCount?: number; error?: string } = await response.json();
       if (!response.ok || typeof result.correct !== "boolean") {
         setMessage(result.error ?? "Your guess could not be validated. Please try again.");
         return;
       }
       const next = submitGuess(game, selected.id, result.correct);
+      if (result.attemptCount !== next.guesses.length) {
+        setMessage("Game progress is out of sync. Reload and try again.");
+        return;
+      }
       setGame(next);
       if (result.answer) setAnswer(result.answer.name);
       if (next.status !== "playing") setStats((current) => settleStats(current, next));

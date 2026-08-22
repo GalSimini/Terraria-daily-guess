@@ -5,7 +5,9 @@ import { getUtcDateKey } from "@/lib/daily-puzzle";
 export const dynamic = "force-dynamic";
 
 export default function Home() {
-  const dateKey = getUtcDateKey(new Date());
+  const now = new Date();
+  const initialNow = now.getTime();
+  const dateKey = getUtcDateKey(now);
   const target = getDailyTarget(dateKey);
   const clues = getDailyClues(dateKey);
 
@@ -15,6 +17,7 @@ export default function Home() {
       entities={searchEntities}
       entityContext={{ kind: target.kind, category: target.category }}
       initialClue={clues[0].text}
+      initialNow={initialNow}
     />
   );
 }
