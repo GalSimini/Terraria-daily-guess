@@ -31,6 +31,8 @@ npm run ci
   progress, using only reviewed curated entities as daily answers.
 - Local streaks, win rate, guess distribution, reset controls, and
   spoiler-free result sharing.
+- A locally saved day/night visual theme with original CSS scenery; no Terraria
+  game assets are bundled.
 
 ## Documentation
 

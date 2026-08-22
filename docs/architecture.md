@@ -44,8 +44,9 @@ Browser UI ◄── Next.js App Router ◄── daily selector + clue engine
    clues and final guess validation. A signed, HTTP-only daily-session cookie
    authorizes clue rounds and server-derived attempts.
 6. The browser receives searchable entity metadata only. Local state mirrors
-   progress for presentation and stores statistics with a versioned schema; it
-   is not authoritative for API progression.
+   progress for presentation and stores statistics plus a non-sensitive
+   day/night theme preference with versioned schemas where applicable; it is
+   not authoritative for API progression.
 
 ## Daily game boundary
 
