@@ -1,6 +1,7 @@
 "use client";
 
 import Fuse from "fuse.js";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
@@ -167,7 +168,9 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue, initi
         <header className="relative text-center">
           <div className="absolute top-0 right-0"><ThemeToggle /></div>
           <p className="pixel-label">Daily challenge · {dateKey}</p>
-          <h1 className="game-title mt-3">Terraria Daily Guess</h1>
+          <h1 className="game-logo mt-3">
+            <Image src="/terraria-guesser-logo.png" alt="Terraria Guesser" width={2172} height={724} priority />
+          </h1>
           <p className="muted-text mt-3 text-sm">Next daily challenge in <span aria-live="off">{formatTimeUntilNextUtcDay(new Date(now))}</span></p>
         </header>
 

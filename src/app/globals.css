@@ -134,34 +134,46 @@ img,
 .game-content {
   position: relative;
   z-index: 1;
-  width: min(100% - 1.25rem, 56rem);
-  margin: clamp(1rem, 4vw, 2.5rem) auto 8rem;
-  padding: clamp(1rem, 3vw, 1.7rem) clamp(0.8rem, 3vw, 1.75rem) clamp(2rem, 5vw, 3.5rem);
-  border: 0.35rem solid var(--terraria-earth-dark);
-  outline: 0.15rem solid var(--border-light);
-  outline-offset: -0.52rem;
-  background:
-    linear-gradient(90deg, rgb(255 255 255 / 5%) 0 0.24rem, transparent 0.24rem 1.7rem) 0 0 / 1.9rem 100% repeat,
-    repeating-linear-gradient(0deg, transparent 0 1.6rem, rgb(25 15 13 / 13%) 1.6rem 1.78rem),
-    linear-gradient(135deg, var(--terraria-earth-light), var(--terraria-earth) 44%, var(--terraria-earth-dark));
-  box-shadow:
-    inset 0 0 0 0.2rem rgb(255 229 192 / 10%),
-    inset 0 -0.45rem 0 rgb(25 15 13 / 42%),
-    0 0.5rem 0 #1e1715,
-    0 1.3rem 2.6rem rgb(19 28 32 / 44%);
+  --frame-top: clamp(4rem, 7vw, 5.6rem);
+  --frame-side: clamp(2.35rem, 5vw, 3.75rem);
+  --frame-bottom: clamp(3rem, 5.5vw, 4.35rem);
+  width: min(100% - 0.65rem, 56rem);
+  margin: clamp(0.5rem, 3vw, 2rem) auto 5rem;
+  padding:
+    calc(clamp(0.8rem, 2.5vw, 1.45rem) + var(--frame-top))
+    calc(clamp(0.65rem, 2.2vw, 1.2rem) + var(--frame-side))
+    calc(clamp(1.25rem, 3.5vw, 2.2rem) + var(--frame-bottom));
 }
 
 .game-content::before {
   position: absolute;
-  top: -0.72rem;
-  right: -0.35rem;
-  left: -0.35rem;
-  height: 0.72rem;
+  inset: 0;
+  z-index: -1;
   content: "";
-  background:
-    repeating-linear-gradient(90deg, var(--terraria-grass-dark) 0 0.45rem, var(--terraria-grass) 0.45rem 0.9rem, var(--terraria-grass-light) 0.9rem 1.2rem),
-    var(--terraria-grass);
-  box-shadow: 0 0.16rem 0 var(--terraria-earth-dark);
+  pointer-events: none;
+  /* Three repeatable pixel-art bands form the full dirt panel. */
+  background-image:
+    url("/terraria-frame-top.png"),
+    url("/terraria-frame-bottom.png");
+  background-position:
+    center top,
+    center bottom;
+  background-size:
+    clamp(3.2rem, 5.6vw, 4.5rem) var(--frame-top),
+    clamp(2.4rem, 4.4vw, 3.5rem) var(--frame-bottom);
+  background-repeat:
+    repeat-x,
+    repeat-x;
+}
+
+.game-content::after {
+  position: absolute;
+  inset: var(--frame-top) 0 var(--frame-bottom);
+  z-index: -2;
+  content: "";
+  pointer-events: none;
+  background: url("/terraria-frame-middle.png") center / clamp(4.5rem, 8vw, 6.5rem) clamp(4.5rem, 8vw, 6.5rem) repeat;
+  box-shadow: 0 1.3rem 2.6rem rgb(19 28 32 / 44%);
 }
 
 .game-content > header {
@@ -180,16 +192,9 @@ img,
 }
 
 .game-content > header::before {
-  position: absolute;
-  top: -0.5rem;
-  right: -0.25rem;
-  left: -0.25rem;
-  height: 0.48rem;
-  content: "";
-  background: repeating-linear-gradient(90deg, var(--terraria-grass-dark) 0 0.35rem, var(--terraria-grass-light) 0.35rem 0.7rem, var(--terraria-grass) 0.7rem 1rem);
+  display: none;
 }
 
-.game-title,
 .pixel-label,
 .theme-toggle,
 .game-button,
@@ -198,33 +203,19 @@ img,
   font-family: var(--font-pixel), var(--font-geist-mono), monospace;
 }
 
-.game-title {
+.game-logo {
   position: relative;
-  display: inline-block;
-  max-width: 100%;
-  padding: 0.25rem 0.18rem 0.42rem;
-  color: #e7e2b6;
-  font-size: clamp(1.85rem, 6vw, 3.55rem);
-  font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.07em;
-  text-shadow:
-    0.07rem 0.08rem 0 #33221a,
-    0.14rem 0.16rem 0 #33221a,
-    0.22rem 0.24rem 0 rgb(24 14 12 / 74%);
-  -webkit-text-stroke: 0.0125rem #2c211a;
-  background: none;
+  width: min(100%, 29rem);
+  margin-right: auto;
+  margin-left: auto;
+  line-height: 0;
 }
 
-.game-title::before {
-  position: absolute;
-  top: 0.17rem;
-  right: 0.42rem;
-  left: 0.42rem;
-  height: 0.22rem;
-  content: "";
-  background: repeating-linear-gradient(90deg, var(--terraria-grass-dark) 0 0.22rem, var(--terraria-grass-light) 0.22rem 0.44rem, var(--terraria-grass) 0.44rem 0.67rem);
-  box-shadow: 0 0.12rem 0 rgb(29 60 29 / 70%);
+.game-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0.22rem 0.12rem rgb(24 14 12 / 58%));
 }
 
 .pixel-label {
@@ -455,9 +446,15 @@ img,
 
 @media (max-width: 40rem) {
   .game-content {
-    width: min(100% - 0.7rem, 56rem);
-    margin-top: 0.6rem;
-    padding: 0.75rem 0.55rem 2rem;
+    --frame-top: 3.75rem;
+    --frame-side: 2.35rem;
+    --frame-bottom: 2.85rem;
+    width: min(100% - 0.25rem, 56rem);
+    margin-top: 0.2rem;
+    padding:
+      calc(0.7rem + var(--frame-top))
+      calc(0.65rem + var(--frame-side))
+      calc(1.1rem + var(--frame-bottom));
   }
 
   .game-content > header {
@@ -465,8 +462,8 @@ img,
     padding: 1.35rem 4.3rem 1rem 1rem;
   }
 
-  .game-title {
-    font-size: clamp(1.75rem, 9vw, 2.45rem);
+  .game-logo {
+    width: min(100%, 21rem);
   }
 
   .theme-toggle__label {
