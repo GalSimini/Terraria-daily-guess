@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   createFixedWindowRateLimiter,
+  getClientIdentifier,
   InvalidJsonRequestError,
   isSameOrigin,
   readCookie,
@@ -31,6 +32,11 @@ describe("request security", () => {
     expect(readCookie(request, "session")).toBe("trusted");
     expect(readCookie(request, "missing")).toBeUndefined();
     expect(isSameOrigin(new Request("https://game.example/api/daily/guess", { headers: { origin: "https://attacker.example" } }))).toBe(false);
+  });
+
+  it("uses only normalized proxy-provided client identifiers", () => {
+    expect(getClientIdentifier(new Request("https://game.example", { headers: { "x-forwarded-for": "2001:DB8::1, 198.51.100.1" } }))).toBe("2001:db8::1");
+    expect(getClientIdentifier(new Request("https://game.example", { headers: { "x-forwarded-for": "unbounded-user-controlled-value" } }))).toBe("unknown-client");
   });
 
   it("bounds JSON request bodies and rejects malformed payloads", async () => {

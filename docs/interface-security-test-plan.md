@@ -97,6 +97,8 @@ assert an internal stack trace, catalog record, seed, or full clue sequence.
 | SEC-09 | Security headers | Every page and API response retains `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, and frame protection. Production additionally enforces HTTPS, HSTS, and a tested restrictive CSP. |
 | SEC-10 | Configuration and secrets | `.env*`, tokens, private keys, and production identifiers are absent from Git, build artifacts, logs, browser bundles, and error pages. Production refuses to start without a non-default daily seed. |
 | SEC-11 | Supply chain | `npm ci`, lockfile integrity, dependency vulnerability review, and GitHub Action pinning are verified before release. |
+| SEC-12 | Mass assignment and upload boundary | Extra API properties are rejected; no route accepts multipart data or file uploads. |
+| SEC-13 | Secret boundary | Tracked files and reachable Git history contain no supported credential patterns, and no secret is exposed through a `NEXT_PUBLIC_` variable. |
 
 ### Current security status and remaining public-beta gaps
 
@@ -124,6 +126,8 @@ HTTPS, HSTS, and release legal pages.
 5. Fail on leaked secret patterns, raw dataset files outside their allowed
    location, unsafe HTML rendering, or modified security headers without a
    corresponding security review.
+6. Use a lockfile-only install, scan dependency advisories, and pin CI actions
+   to reviewed commit SHAs.
 
 ### Release-candidate gate
 

@@ -1,27 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --sky-top: #72caee;
-  --sky-middle: #afeaff;
-  --sky-bottom: #e8f8db;
-  --cloud: rgb(255 255 255 / 58%);
-  --mountain: #5fa38d;
-  --mountain-shadow: #3d7a72;
-  --ground: #5b9949;
-  --ground-deep: #274f3d;
-  --panel: rgb(13 42 46 / 82%);
-  --panel-solid: #103e43;
-  --panel-muted: #143f43;
-  --border: rgb(207 255 194 / 35%);
-  --foreground: #f7ffe9;
-  --muted: #c2ddcf;
-  --accent: #d9ff73;
-  --accent-strong: #75e3aa;
-  --accent-ink: #0d2a2f;
+  --sky-top: #78d4ef;
+  --sky-middle: #b9efff;
+  --sky-bottom: #e2f4b4;
+  --cloud: rgb(255 255 255 / 48%);
+  --distant-hill: #638f72;
+  --distant-hill-shadow: #3f6b59;
+  --ground: #5c9b42;
+  --ground-deep: #3b6235;
+  --terraria-earth-dark: #34251f;
+  --terraria-earth: #5a4036;
+  --terraria-earth-light: #765548;
+  --terraria-panel: #5f4538;
+  --terraria-panel-dark: #382821;
+  --terraria-stone: #76736b;
+  --terraria-stone-dark: #45443f;
+  --terraria-grass-dark: #28542c;
+  --terraria-grass: #4d8a3d;
+  --terraria-grass-light: #82cc57;
+  --panel: #594037;
+  --panel-solid: #49342e;
+  --panel-muted: #684b3e;
+  --border: #271b18;
+  --border-light: #96705b;
+  --foreground: #fffaf0;
+  --muted: #e0cdb5;
+  --accent: #ffd76a;
+  --accent-strong: #78dff4;
+  --accent-ink: #2c211a;
   --warning: #ffe29b;
-  --input: rgb(7 30 35 / 88%);
-  --locked: rgb(6 29 34 / 55%);
-  --focus-ring: #fff4a5;
+  --input: #2b201d;
+  --locked: #322722;
+  --focus-ring: #78e7ff;
+  --scene-overlay: rgb(21 61 45 / 16%);
 }
 
 @theme inline {
@@ -31,27 +43,47 @@
 }
 
 :root[data-theme="night"] {
-  --sky-top: #101f5b;
-  --sky-middle: #26427c;
-  --sky-bottom: #6b78a4;
-  --cloud: rgb(209 218 255 / 15%);
-  --mountain: #243a63;
-  --mountain-shadow: #152440;
-  --ground: #29495a;
-  --ground-deep: #112d3a;
-  --panel: rgb(8 20 43 / 86%);
-  --panel-solid: #101f43;
-  --panel-muted: #172951;
-  --border: rgb(179 200 255 / 32%);
-  --foreground: #f4f5ff;
-  --muted: #c5ceed;
-  --accent: #f0df8d;
-  --accent-strong: #a8caff;
-  --accent-ink: #152042;
-  --warning: #ffd99e;
-  --input: rgb(7 15 36 / 88%);
-  --locked: rgb(9 19 39 / 58%);
-  --focus-ring: #fbec9b;
+  --sky-top: #15295b;
+  --sky-middle: #315080;
+  --sky-bottom: #758b85;
+  --cloud: rgb(229 236 255 / 16%);
+  --distant-hill: #344e5b;
+  --distant-hill-shadow: #25374a;
+  --ground: #426a48;
+  --ground-deep: #253e32;
+  --terraria-earth-dark: #2d2220;
+  --terraria-earth: #4c3933;
+  --terraria-earth-light: #6b5046;
+  --terraria-panel: #4d3934;
+  --terraria-panel-dark: #2e2424;
+  --terraria-stone: #67675f;
+  --terraria-stone-dark: #393b39;
+  --terraria-grass-dark: #24492d;
+  --terraria-grass: #3e7139;
+  --terraria-grass-light: #70ab4b;
+  --panel: #493631;
+  --panel-solid: #3c2d2c;
+  --panel-muted: #58413a;
+  --border: #211919;
+  --border-light: #7a5e52;
+  --foreground: #fff8ec;
+  --muted: #dcc9b6;
+  --accent: #f6d66e;
+  --accent-strong: #71d8ed;
+  --accent-ink: #29221d;
+  --warning: #ffe1a3;
+  --input: #251d1d;
+  --locked: #2c2423;
+  --focus-ring: #8eeaff;
+  --scene-overlay: rgb(8 17 47 / 54%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--sky-top);
 }
 
 body {
@@ -64,16 +96,18 @@ input {
   font: inherit;
 }
 
+img,
+[data-pixel-art] {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 .game-shell {
   position: relative;
   isolation: isolate;
   min-height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 26rem 8rem at 12% 19%, var(--cloud) 0 18%, transparent 19%),
-    radial-gradient(ellipse 20rem 6rem at 72% 11%, var(--cloud) 0 18%, transparent 19%),
-    radial-gradient(ellipse 32rem 9rem at 105% 32%, var(--cloud) 0 18%, transparent 19%),
-    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-middle) 53%, var(--sky-bottom) 100%);
+  background: url("/terraria-forest-background.png") center / cover fixed no-repeat;
 }
 
 .game-shell::before,
@@ -88,168 +122,326 @@ input {
 }
 
 .game-shell::before {
-  height: 46vh;
-  opacity: 0.95;
-  background:
-    linear-gradient(145deg, transparent 0 21%, var(--mountain-shadow) 21.3% 32%, transparent 32.4%) 0 100% / 30rem 18rem repeat-x,
-    linear-gradient(35deg, transparent 0 34%, var(--mountain) 34.4% 49%, transparent 49.4%) 8rem 100% / 32rem 19rem repeat-x;
+  top: 0;
+  height: auto;
+  background: var(--scene-overlay);
 }
 
 .game-shell::after {
-  height: 20vh;
-  min-height: 8rem;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 1.8rem, rgb(255 255 255 / 8%) 1.8rem 2rem),
-    linear-gradient(180deg, var(--ground) 0 16%, var(--ground-deep) 17% 100%);
-  border-top: 0.35rem solid rgb(220 255 151 / 62%);
+  display: none;
 }
 
 .game-content {
   position: relative;
   z-index: 1;
-  width: min(100% - 2rem, 52rem);
-  margin: 0 auto;
-  padding: clamp(2rem, 7vw, 4.5rem) 0 10rem;
+  width: min(100% - 1.25rem, 56rem);
+  margin: clamp(1rem, 4vw, 2.5rem) auto 8rem;
+  padding: clamp(1rem, 3vw, 1.7rem) clamp(0.8rem, 3vw, 1.75rem) clamp(2rem, 5vw, 3.5rem);
+  border: 0.35rem solid var(--terraria-earth-dark);
+  outline: 0.15rem solid var(--border-light);
+  outline-offset: -0.52rem;
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 0 0.24rem, transparent 0.24rem 1.7rem) 0 0 / 1.9rem 100% repeat,
+    repeating-linear-gradient(0deg, transparent 0 1.6rem, rgb(25 15 13 / 13%) 1.6rem 1.78rem),
+    linear-gradient(135deg, var(--terraria-earth-light), var(--terraria-earth) 44%, var(--terraria-earth-dark));
+  box-shadow:
+    inset 0 0 0 0.2rem rgb(255 229 192 / 10%),
+    inset 0 -0.45rem 0 rgb(25 15 13 / 42%),
+    0 0.5rem 0 #1e1715,
+    0 1.3rem 2.6rem rgb(19 28 32 / 44%);
+}
+
+.game-content::before {
+  position: absolute;
+  top: -0.72rem;
+  right: -0.35rem;
+  left: -0.35rem;
+  height: 0.72rem;
+  content: "";
+  background:
+    repeating-linear-gradient(90deg, var(--terraria-grass-dark) 0 0.45rem, var(--terraria-grass) 0.45rem 0.9rem, var(--terraria-grass-light) 0.9rem 1.2rem),
+    var(--terraria-grass);
+  box-shadow: 0 0.16rem 0 var(--terraria-earth-dark);
+}
+
+.game-content > header {
+  position: relative;
+  min-height: 9.25rem;
+  padding: 1.35rem 7rem 1.15rem;
+  border: 0.25rem solid var(--terraria-earth-dark);
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, transparent 0 6%, rgb(255 255 255 / 7%) 6% 7%, transparent 7% 100%) 0 0 / 3rem 100% repeat,
+    linear-gradient(180deg, var(--terraria-panel) 0%, var(--terraria-panel-dark) 100%);
+  box-shadow:
+    inset 0.18rem 0.18rem 0 rgb(255 227 194 / 12%),
+    inset -0.18rem -0.18rem 0 rgb(21 14 12 / 35%),
+    0 0.32rem 0 rgb(37 25 21 / 85%);
+}
+
+.game-content > header::before {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.25rem;
+  left: -0.25rem;
+  height: 0.48rem;
+  content: "";
+  background: repeating-linear-gradient(90deg, var(--terraria-grass-dark) 0 0.35rem, var(--terraria-grass-light) 0.35rem 0.7rem, var(--terraria-grass) 0.7rem 1rem);
 }
 
 .game-title,
 .pixel-label,
 .theme-toggle,
-.game-button {
+.game-button,
+.game-card h2,
+.game-card h3 {
   font-family: var(--font-pixel), var(--font-geist-mono), monospace;
 }
 
 .game-title {
-  color: var(--foreground);
-  font-size: clamp(1.8rem, 6vw, 3.4rem);
-  line-height: 1.12;
-  letter-spacing: -0.06em;
-  text-shadow: 0.14rem 0.16rem 0 var(--accent-ink), 0 0 1.4rem rgb(255 255 255 / 24%);
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.25rem 0.18rem 0.42rem;
+  color: #e7e2b6;
+  font-size: clamp(1.85rem, 6vw, 3.55rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.07em;
+  text-shadow:
+    0.07rem 0.08rem 0 #33221a,
+    0.14rem 0.16rem 0 #33221a,
+    0.22rem 0.24rem 0 rgb(24 14 12 / 74%);
+  -webkit-text-stroke: 0.0125rem #2c211a;
+  background: none;
 }
 
-.game-card {
-  border: 1px solid var(--border);
-  border-radius: 1.25rem;
-  background: var(--panel);
-  box-shadow: 0 1.4rem 3rem rgb(5 19 24 / 22%);
-  backdrop-filter: blur(0.8rem);
-}
-
-.game-card--context {
-  border-color: color-mix(in srgb, var(--accent-strong) 62%, transparent);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--panel-solid) 75%, transparent), var(--panel));
+.game-title::before {
+  position: absolute;
+  top: 0.17rem;
+  right: 0.42rem;
+  left: 0.42rem;
+  height: 0.22rem;
+  content: "";
+  background: repeating-linear-gradient(90deg, var(--terraria-grass-dark) 0 0.22rem, var(--terraria-grass-light) 0.22rem 0.44rem, var(--terraria-grass) 0.44rem 0.67rem);
+  box-shadow: 0 0.12rem 0 rgb(29 60 29 / 70%);
 }
 
 .pixel-label {
   color: var(--accent);
-  font-size: 0.66rem;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
   line-height: 1.6;
+  text-shadow: 0.1rem 0.1rem 0 var(--terraria-earth-dark);
   text-transform: uppercase;
 }
 
 .muted-text {
   color: var(--muted);
+  text-shadow: 0.08rem 0.08rem 0 rgb(38 24 19 / 60%);
 }
 
 .theme-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.65rem 0.85rem;
+  gap: 0.42rem;
+  padding: 0.48rem 0.65rem;
   color: var(--foreground);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   line-height: 1;
-  background: rgb(5 20 32 / 24%);
-  border: 1px solid rgb(255 255 255 / 34%);
-  border-radius: 999px;
+  border: 0.18rem solid var(--terraria-earth-dark);
+  border-radius: 0;
+  background: linear-gradient(180deg, #70625a, var(--terraria-stone-dark));
+  box-shadow: inset 0.12rem 0.12rem 0 rgb(255 255 255 / 16%), 0 0.18rem 0 #251a18;
   cursor: pointer;
-  transition: transform 150ms ease, background-color 150ms ease;
+  transition: filter 120ms ease, transform 120ms ease, box-shadow 120ms ease;
 }
 
 .theme-toggle:hover {
-  background: rgb(5 20 32 / 40%);
-  transform: translateY(-0.1rem);
+  filter: brightness(1.16);
+  transform: translateY(-0.08rem);
+}
+
+.theme-toggle:active {
+  transform: translateY(0.14rem);
+  box-shadow: inset 0.12rem 0.12rem 0 rgb(255 255 255 / 12%);
 }
 
 .theme-toggle__icon {
   color: var(--accent);
   font-family: var(--font-geist-sans), sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   line-height: 0.7;
+  text-shadow: 0.08rem 0.08rem 0 var(--terraria-earth-dark);
+}
+
+.game-card {
+  position: relative;
+  border: 0.27rem solid var(--terraria-earth-dark);
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 11% 22%, rgb(255 227 194 / 7%) 0 0.12rem, transparent 0.15rem),
+    radial-gradient(circle at 80% 69%, rgb(25 14 12 / 12%) 0 0.16rem, transparent 0.2rem),
+    repeating-linear-gradient(0deg, transparent 0 1.55rem, rgb(25 14 12 / 13%) 1.55rem 1.7rem),
+    linear-gradient(135deg, var(--panel-muted), var(--panel) 48%, var(--panel-solid));
+  box-shadow:
+    inset 0.16rem 0.16rem 0 rgb(255 229 193 / 12%),
+    inset -0.17rem -0.17rem 0 rgb(24 14 12 / 38%),
+    0 0.3rem 0 rgb(38 24 20 / 88%),
+    0 0.7rem 1.2rem rgb(22 28 26 / 24%);
+}
+
+.game-card--context {
+  border-color: var(--terraria-earth-dark);
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 0 0.25rem, transparent 0.25rem 2.7rem) 0 0 / 3rem 100% repeat,
+    linear-gradient(135deg, #5e543d, var(--terraria-panel) 48%, var(--terraria-panel-dark));
+}
+
+.game-card h2,
+.game-card h3 {
+  color: #fff7e5;
+  text-shadow: 0.11rem 0.11rem 0 var(--terraria-earth-dark);
+}
+
+.game-card > h2,
+.game-card > div:first-child > h2 {
+  min-height: 2rem;
+  margin: -0.45rem -0.45rem 0;
+  padding: 0.38rem 0.55rem;
+  border: 0.15rem solid #2b1e1a;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 6%) 0 0.2rem, transparent 0.2rem 1.3rem),
+    linear-gradient(180deg, #48342d, #2f2420);
 }
 
 .game-input {
   min-width: 0;
   color: var(--foreground);
+  border: 0.18rem solid #211817;
+  border-radius: 0;
   background: var(--input);
-  border: 1px solid var(--border);
-  border-radius: 0.7rem;
+  box-shadow: inset 0.14rem 0.16rem 0 rgb(0 0 0 / 38%), 0.1rem 0.1rem 0 rgb(255 239 210 / 9%);
 }
 
 .game-input::placeholder {
-  color: color-mix(in srgb, var(--muted) 70%, transparent);
+  color: color-mix(in srgb, var(--muted) 67%, transparent);
+}
+
+.game-input:focus {
+  border-color: var(--accent-strong);
+  box-shadow: inset 0.14rem 0.16rem 0 rgb(0 0 0 / 38%), 0 0 0 0.12rem rgb(101 232 245 / 34%);
 }
 
 .game-button {
-  border-radius: 0.7rem;
+  min-width: 5.5rem;
+  border: 0.2rem solid var(--terraria-earth-dark);
+  border-radius: 0;
+  box-shadow: inset 0.13rem 0.13rem 0 rgb(255 255 255 / 27%), 0 0.22rem 0 #2a1c18;
   cursor: pointer;
-  transition: transform 150ms ease, filter 150ms ease;
+  transition: filter 120ms ease, transform 120ms ease, box-shadow 120ms ease;
 }
 
 .game-button:hover:not(:disabled) {
-  filter: brightness(1.08);
-  transform: translateY(-0.1rem);
+  filter: brightness(1.15);
+  transform: translateY(-0.08rem);
+}
+
+.game-button:active:not(:disabled) {
+  transform: translateY(0.16rem);
+  box-shadow: inset 0.13rem 0.13rem 0 rgb(255 255 255 / 19%);
 }
 
 .game-button:disabled {
   cursor: not-allowed;
-  opacity: 0.48;
+  filter: saturate(0.3);
+  opacity: 0.65;
 }
 
 .game-button--primary {
-  color: var(--accent-ink);
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #34251f;
+  text-shadow: 0.05rem 0.05rem 0 rgb(255 255 255 / 30%);
+  background: linear-gradient(180deg, #a5e9f4 0 14%, var(--accent-strong) 15% 52%, #3995ae 53% 100%);
 }
 
 .game-button--secondary {
-  color: var(--accent-ink);
-  background: var(--foreground);
+  color: #2c211a;
+  text-shadow: 0.05rem 0.05rem 0 rgb(255 255 255 / 32%);
+  background: linear-gradient(180deg, #f8da79 0 12%, #d49e42 13% 100%);
 }
 
 .clue-card {
-  border-radius: 0.7rem;
-  background: var(--panel-muted);
+  border: 0.14rem solid #34231e;
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 0 0.18rem, transparent 0.18rem 1.7rem) 0 0 / 2rem 100% repeat,
+    linear-gradient(135deg, #765548, #593e35);
+  box-shadow: inset 0.1rem 0.1rem 0 rgb(255 231 201 / 9%), 0 0.12rem 0 rgb(30 18 16 / 70%);
 }
 
 .clue-card--locked {
-  color: color-mix(in srgb, var(--muted) 62%, transparent);
-  background: var(--locked);
+  color: color-mix(in srgb, var(--muted) 69%, transparent);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 1rem, rgb(255 255 255 / 3%) 1rem 1.1rem),
+    var(--locked);
 }
 
 .search-results {
-  background: color-mix(in srgb, var(--panel-solid) 88%, transparent);
-  border: 1px solid var(--border);
-  border-radius: 0.7rem;
+  overflow: hidden;
+  border: 0.2rem solid var(--terraria-earth-dark);
+  border-radius: 0;
+  background: var(--terraria-panel-dark);
+  box-shadow: 0 0.25rem 0 rgb(35 23 20 / 85%);
 }
 
 .search-result {
   color: var(--foreground);
+  border-bottom: 0.1rem solid rgb(255 232 198 / 10%);
 }
 
 .search-result:hover,
 .search-result:focus-visible {
-  background: color-mix(in srgb, var(--accent-strong) 17%, transparent);
+  background: #5b8477;
 }
 
 .attempt-empty {
-  color: color-mix(in srgb, var(--muted) 62%, transparent);
-  border-color: color-mix(in srgb, var(--border) 72%, transparent);
+  color: color-mix(in srgb, var(--muted) 66%, transparent);
+  border-color: #785b4a;
+  border-radius: 0 !important;
+  background: rgb(33 24 22 / 23%);
+}
+
+.game-card a,
+.game-card button.underline {
+  color: var(--accent-strong);
+}
+
+.game-card a:hover,
+.game-card button.underline:hover {
+  color: #b4f5ff;
+  text-decoration-thickness: 0.12em;
 }
 
 :focus-visible {
-  outline: 3px solid var(--focus-ring);
-  outline-offset: 3px;
+  outline: 0.18rem solid var(--focus-ring);
+  outline-offset: 0.18rem;
+}
+
+::-webkit-scrollbar {
+  width: 0.95rem;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--terraria-earth-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 0.18rem solid var(--terraria-earth-dark);
+  background: var(--terraria-stone);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--terraria-earth-light);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -262,12 +454,19 @@ input {
 }
 
 @media (max-width: 40rem) {
-  .game-shell::before {
-    height: 34vh;
+  .game-content {
+    width: min(100% - 0.7rem, 56rem);
+    margin-top: 0.6rem;
+    padding: 0.75rem 0.55rem 2rem;
+  }
+
+  .game-content > header {
+    min-height: 8.8rem;
+    padding: 1.35rem 4.3rem 1rem 1rem;
   }
 
   .game-title {
-    font-size: clamp(1.65rem, 9vw, 2.25rem);
+    font-size: clamp(1.75rem, 9vw, 2.45rem);
   }
 
   .theme-toggle__label {

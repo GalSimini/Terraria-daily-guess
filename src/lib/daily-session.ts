@@ -2,7 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 import { z } from "zod";
 
-export const DAILY_SESSION_COOKIE = "terraria-daily-session";
+const DAILY_SESSION_COOKIE_BASENAME = "terraria-daily-session";
 export const DAILY_SESSION_MAX_AGE_SECONDS = 60 * 60 * 36;
 
 const DEVELOPMENT_SESSION_SECRET = "development-only-session-secret";
@@ -30,6 +30,12 @@ const DailySessionSchema = z
   });
 
 export type DailySession = z.infer<typeof DailySessionSchema>;
+
+export function getDailySessionCookieName(environment = process.env.NODE_ENV): string {
+  return environment === "production" ? `__Host-${DAILY_SESSION_COOKIE_BASENAME}` : DAILY_SESSION_COOKIE_BASENAME;
+}
+
+export const DAILY_SESSION_COOKIE = getDailySessionCookieName();
 
 export function getDailySessionSecret(): string {
   const configured = process.env.DAILY_SESSION_SECRET?.trim();

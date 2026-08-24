@@ -14,7 +14,7 @@ import { checkDailyApiRateLimit, readCookie } from "@/lib/request-security";
 
 export const dynamic = "force-dynamic";
 
-const QuerySchema = z.object({ dateKey: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), round: z.coerce.number().int().min(1).max(5) });
+const QuerySchema = z.object({ dateKey: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), round: z.coerce.number().int().min(1).max(5) }).strict();
 const API_HEADERS = { "Cache-Control": "no-store, max-age=0", Vary: "Cookie" };
 
 export function GET(request: Request) {

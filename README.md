@@ -41,6 +41,7 @@ npm run ci
 - [Dataset contract](docs/data-contract.md)
 - [Data quality report](docs/data-quality.md)
 - [Security baseline](docs/security.md)
+- [Security control register](docs/security-controls.md)
 - [Interface and security test plan](docs/interface-security-test-plan.md)
 - [Contribution guide](CONTRIBUTING.md)
 

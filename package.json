@@ -9,7 +9,9 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "ci": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "security:check": "node scripts/verify-security.mjs",
+    "security:audit": "npm audit --audit-level=high",
+    "ci": "npm run security:check && npm run security:audit && npm run lint && npm run typecheck && npm run test && npm run build",
     "import:data": "node scripts/import-terraria-dataset.mjs"
   },
   "engines": {

@@ -16,14 +16,17 @@ type RateLimitEntry = Readonly<{
 export function createFixedWindowRateLimiter(options: Readonly<{
   limit: number;
   windowMs: number;
+  maxEntries?: number;
   now?: () => number;
 }>) {
   const entries = new Map<string, RateLimitEntry>();
   const now = options.now ?? Date.now;
+  const maxEntries = options.maxEntries ?? 10_000;
 
   return {
     check(key: string): RateLimitResult {
       const currentTime = now();
+      pruneRateLimitEntries(entries, currentTime, maxEntries);
       const existing = entries.get(key);
       const entry = !existing || existing.resetAt <= currentTime
         ? { count: 0, resetAt: currentTime + options.windowMs }
@@ -47,7 +50,8 @@ export function checkDailyApiRateLimit(request: Request, route: "clue" | "guess"
 
 export function getClientIdentifier(request: Request): string {
   const forwardedFor = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwardedFor || request.headers.get("x-real-ip") || "unknown-client";
+  const candidate = forwardedFor || request.headers.get("x-real-ip") || "";
+  return /^[a-f0-9:.]{1,64}$/i.test(candidate) ? candidate.toLowerCase() : "unknown-client";
 }
 
 export function isSameOrigin(request: Request): boolean {
@@ -110,5 +114,17 @@ export async function readJsonRequest(request: Request, maximumBytes = MAX_GUESS
     return JSON.parse(new TextDecoder().decode(bytes));
   } catch {
     throw new InvalidJsonRequestError();
+  }
+}
+
+function pruneRateLimitEntries(entries: Map<string, RateLimitEntry>, currentTime: number, maxEntries: number) {
+  for (const [key, entry] of entries) {
+    if (entry.resetAt <= currentTime) entries.delete(key);
+  }
+
+  while (entries.size >= maxEntries) {
+    const oldestKey = entries.keys().next().value;
+    if (!oldestKey) break;
+    entries.delete(oldestKey);
   }
 }

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   createDailySession,
+  getDailySessionCookieName,
   getAuthorizedClueRound,
   readDailySession,
   recordDailyGuess,
@@ -12,6 +13,11 @@ const dateKey = "2026-08-22";
 const secret = "test-only-session-secret";
 
 describe("daily session", () => {
+  it("uses a host-only cookie prefix in production", () => {
+    expect(getDailySessionCookieName("development")).toBe("terraria-daily-session");
+    expect(getDailySessionCookieName("production")).toBe("__Host-terraria-daily-session");
+  });
+
   it("signs progress and rejects tampered or stale session values", () => {
     const session = createDailySession(dateKey);
     const signed = signDailySession(session, secret);

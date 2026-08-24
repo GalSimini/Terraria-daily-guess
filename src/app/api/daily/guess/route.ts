@@ -21,7 +21,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-const GuessSchema = z.object({ dateKey: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), guessId: z.string().min(1), expectedAttemptCount: z.number().int().min(0).max(4) });
+const GuessSchema = z.object({ dateKey: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), guessId: z.string().min(1), expectedAttemptCount: z.number().int().min(0).max(4) }).strict();
 const API_HEADERS = { "Cache-Control": "no-store, max-age=0", Vary: "Cookie, Origin" };
 
 function setSessionCookie(response: NextResponse, session: ReturnType<typeof createDailySession>) {
@@ -76,7 +76,6 @@ export async function POST(request: Request) {
     NextResponse.json({
       correct,
       attemptCount: nextSession.guesses.length,
-      status: nextSession.status,
       answer: nextSession.status === "lost" ? { name: target.name } : undefined,
     }, { headers: API_HEADERS }),
     nextSession,

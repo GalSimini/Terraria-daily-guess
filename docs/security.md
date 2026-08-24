@@ -19,6 +19,12 @@
   request limit with stable `400`, `403`, `409`, `413`, and `429` responses.
 - Production requires distinct `DAILY_PUZZLE_SEED` and
   `DAILY_SESSION_SECRET` values; development fallbacks are rejected.
+- Production daily-session cookies use the `__Host-` prefix and cannot specify
+  a broad domain. API schemas reject unknown properties, preventing mass
+  assignment, and response DTOs expose only data needed by the game UI.
+- `npm run security:check` scans tracked files and reachable Git history for
+  supported credential patterns without printing values. CI also uses
+  lockfile-only installs, dependency auditing, and commit-pinned actions.
 - CI uses least-privilege read-only repository permissions.
 - Secrets belong only in the deployment provider's encrypted environment
   configuration; `.env*` files are ignored.
@@ -43,6 +49,10 @@
   disclaimer before a public release.
 - Review Terraria/Re-Logic trademark, asset, and data-use rules before launch.
 - Run dependency updates and vulnerability review continuously.
+
+See [the security control register](security-controls.md) for the current
+applicability of database, authentication, encryption, upload, bot-protection,
+and query-security controls.
 
 ## Deferred monetization and analytics
 

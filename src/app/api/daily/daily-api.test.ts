@@ -65,7 +65,7 @@ describe("daily API security", () => {
 
     for (let index = 0; index < wrongIds.length; index += 1) {
       const response = await postGuess(guessRequest(wrongIds[index]!, index, { cookie, client: "198.51.100.13" }));
-      const result = await response.json() as { answer?: { name: string }; attemptCount?: number; status?: string };
+      const result = await response.json() as { answer?: { name: string }; attemptCount?: number };
       expect(response.status).toBe(200);
       expect(result.attemptCount).toBe(index + 1);
       if (index < 4) expect(result.answer).toBeUndefined();
@@ -89,5 +89,20 @@ describe("daily API security", () => {
     }));
     expect(malformed.status).toBe(400);
     expect(malformed.headers.get("cache-control")).toContain("no-store");
+  });
+
+  it("rejects unrecognized request fields to prevent mass assignment", async () => {
+    const clue = getClue(new Request(`http://game.test/api/daily/clue?dateKey=${dateKey}&round=1&admin=true`, {
+      headers: { "x-forwarded-for": "198.51.100.16" },
+    }));
+    expect(clue.status).toBe(400);
+
+    const guess = await postGuess(new Request("http://game.test/api/daily/guess", {
+      method: "POST",
+      headers: { origin: "http://game.test", "content-type": "application/json", "x-forwarded-for": "198.51.100.17" },
+      body: JSON.stringify({ dateKey, guessId: wrongIds[0], expectedAttemptCount: 0, isAdmin: true }),
+    }));
+    expect(guess.status).toBe(400);
+    expect(await guess.json()).toEqual({ error: "Invalid daily guess." });
   });
 });
