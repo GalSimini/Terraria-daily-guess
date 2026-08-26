@@ -27,7 +27,7 @@ Browser UI ◄── Next.js App Router ◄── daily selector + clue engine
 | --- | --- | --- |
 | Routes | `src/app/` | Pages, route-level metadata, legal pages, sitemap and robots policy. |
 | UI | `src/components/` | Accessible presentational components; no daily-selection logic. |
-| Game feature | `src/features/game/` | Guess reducer, clue display, autocomplete integration, stats and sharing. |
+| Game feature | `src/features/game/` | Guess reducer, clue display, autocomplete integration, and stats. |
 | Domain utilities | `src/lib/` | UTC date key, deterministic selection, schemas, clue safety and storage migration. |
 | Data pipeline | `scripts/`, `data/` | Source validation, normalization, catalog reports and checksums. |
 

@@ -4,7 +4,7 @@
 
 **Terraria Daily Guess** (also referred to as **Terrariadle**) is a daily, browser-based guessing game for Terraria fans. Every UTC day, every player receives the same secret Terraria entity. The entity can be an item, block, enemy, critter, NPC, boss, or other supported in-game entry.
 
-Players use searchable autocomplete to submit a guess. They receive up to five progressively more specific clues, with each incorrect guess unlocking the next clue. A completed game produces a spoiler-free result that can be shared as an emoji grid.
+Players use searchable autocomplete to submit a guess. They receive up to five progressively more specific clues, with each incorrect guess unlocking the next clue.
 
 All source code, technical documentation, product copy, tests, pull-request text, commits, and developer communication must be written in **English**. The public UI should be localized later, beginning with English and Brazilian Portuguese.
 
@@ -14,7 +14,6 @@ All source code, technical documentation, product copy, tests, pull-request text
 - Five-round clue progression.
 - Fuzzy-search autocomplete over a curated, normalized Terraria dataset.
 - Local statistics: streak, wins, losses, win rate, and guess distribution.
-- Spoiler-free sharing.
 - Responsive and accessible web experience.
 - High-quality, evidence-based clues and a polished player experience.
 

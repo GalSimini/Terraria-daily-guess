@@ -2,7 +2,7 @@
 
 import Fuse from "fuse.js";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   createGameState,
@@ -14,7 +14,7 @@ import {
   type GameState,
   type PlayerStats,
 } from "@/features/game/game-state";
-import { createShareText, formatTimeUntilNextUtcDay } from "@/lib/game-presentation";
+import { formatTimeUntilNextUtcDay } from "@/lib/game-presentation";
 
 type SearchEntity = Readonly<{
   id: string;
@@ -34,6 +34,7 @@ type Props = Readonly<{
 
 const gameKey = (dateKey: string) => `terraria-daily-guess:game:v2:${dateKey}`;
 const statsKey = "terraria-daily-guess:stats";
+const confettiPieces = Array.from({ length: 36 }, (_, index) => index);
 
 export function GameBoard({ dateKey, entities, entityContext, initialClue, initialNow }: Props) {
   const [game, setGame] = useState<GameState>(() => createGameState(dateKey));
@@ -47,6 +48,8 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue, initi
   const [clueLoading, setClueLoading] = useState(false);
   const [ready, setReady] = useState(false);
   const [now, setNow] = useState(initialNow);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const winMessageRef = useRef<HTMLElement>(null);
 
   const selected = entities.find((entity) => entity.id === selectedId);
   const fuse = useMemo(
@@ -103,6 +106,15 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue, initi
     return () => controller.abort();
   }, [clues.length, dateKey, game.guesses.length, game.status, ready]);
 
+  useEffect(() => {
+    if (!showCelebration) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    winMessageRef.current?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
+    const celebrationTimer = window.setTimeout(() => setShowCelebration(false), 4_500);
+    return () => window.clearTimeout(celebrationTimer);
+  }, [showCelebration]);
+
   function choose(entity: SearchEntity) {
     setSelectedId(entity.id);
     setQuery(entity.name);
@@ -138,21 +150,13 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue, initi
       if (result.answer) setAnswer(result.answer.name);
       if (next.status !== "playing") setStats((current) => settleStats(current, next));
       if (next.status === "playing") setClueLoading(true);
+      if (result.correct) setShowCelebration(true);
       setQuery("");
       setSelectedId(undefined);
     } catch {
       setMessage("A network error prevented validation. Please try again.");
     } finally {
       setBusy(false);
-    }
-  }
-
-  async function shareResult() {
-    try {
-      await navigator.clipboard.writeText(createShareText(game));
-      setMessage("Result copied without revealing the answer.");
-    } catch {
-      setMessage("Copy failed. Your browser may block clipboard access.");
     }
   }
 
@@ -164,9 +168,10 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue, initi
 
   return (
     <main className="game-shell">
+      <div className="theme-toggle-position"><ThemeToggle /></div>
+      {showCelebration && <div className="confetti" aria-hidden="true">{confettiPieces.map((piece) => <span key={piece} className="confetti__piece" style={({ left: `${(piece * 2.9) + 1}%`, backgroundColor: `hsl(${piece * 47}deg 85% 60%)`, animationDelay: `${(piece % 9) * -0.08}s`, transform: `rotate(${piece * 29}deg)`, "--confetti-drift": `${((piece % 5) - 2) * 8}vw` } as CSSProperties)} />)}</div>}
       <div className="game-content space-y-6">
         <header className="relative text-center">
-          <div className="absolute top-0 right-0"><ThemeToggle /></div>
           <p className="pixel-label">Daily challenge · {dateKey}</p>
           <h1 className="game-logo mt-3">
             <Image src="/terraria-guesser-logo.png" alt="Terraria Guesser" width={2172} height={724} priority />
@@ -195,7 +200,7 @@ export function GameBoard({ dateKey, entities, entityContext, initialClue, initi
 
         <section className="game-card p-5"><h2 className="font-semibold">Attempts</h2><ol className="mt-3 space-y-2">{game.guesses.map((id) => <li key={id} className="clue-card px-3 py-2">{entities.find((entry) => entry.id === id)?.name}</li>)}{Array.from({ length: 5 - game.guesses.length }, (_, index) => <li key={`empty-${index}`} className="attempt-empty rounded-lg border border-dashed px-3 py-2">Empty attempt</li>)}</ol></section>
 
-        {game.status !== "playing" && <section className="game-card game-card--context p-5 text-center"><h2 className="text-2xl font-bold">{game.status === "won" ? "Solved!" : "Better luck tomorrow!"}</h2>{answer && <p className="mt-2">Today&apos;s entity was {answer}.</p>}<button type="button" onClick={shareResult} className="game-button game-button--secondary mt-4 px-4 py-2 font-semibold">Copy spoiler-free result</button></section>}
+        {game.status !== "playing" && <section ref={game.status === "won" ? winMessageRef : undefined} className="game-card game-card--context p-5 text-center"><h2 className="text-2xl font-bold">{game.status === "won" ? "Solved!" : "Better luck tomorrow!"}</h2>{answer && <p className="mt-2">Today&apos;s entity was {answer}.</p>}</section>}
 
         <section className="game-card p-5"><div className="flex items-center justify-between gap-3"><h2 className="font-semibold">Local statistics</h2><button type="button" onClick={resetStats} className="muted-text text-sm underline hover:text-white">Reset</button></div><div className="mt-4 grid grid-cols-3 gap-3 text-center text-sm"><div><strong className="block text-lg">{stats.gamesPlayed}</strong>Played</div><div><strong className="block text-lg">{winRate}%</strong>Win rate</div><div><strong className="block text-lg">{stats.currentStreak}</strong>Streak</div></div><div className="mt-4"><h3 className="text-sm font-medium">Win distribution</h3><ol className="mt-2 grid grid-cols-5 gap-2">{[1, 2, 3, 4, 5].map((round) => <li key={round} className="clue-card p-2 text-center text-xs"><strong className="block text-base">{stats.guessDistribution[String(round)] ?? 0}</strong>{round}</li>)}</ol></div></section>
       </div>

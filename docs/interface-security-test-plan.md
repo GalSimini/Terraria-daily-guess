@@ -54,7 +54,7 @@ marked manual.
 | UI-02 | Search and selection | Typing a name or alias shows matching entities; pointer selection and keyboard selection choose one result without submitting a guess. Duplicate selection is clearly rejected. |
 | UI-03 | Invalid submission | The Guess button remains unavailable with no selected entity; a malformed or rejected server response gives an understandable status message and preserves the current game. |
 | UI-04 | Incorrect attempt | One wrong validated guess appears in Attempts, increments the round once, and unlocks exactly one additional clue. |
-| UI-05 | Winning attempt | A correct validated guess ends the game, records stats once, prevents more submissions, and creates a spoiler-free share result. |
+| UI-05 | Winning attempt | A correct validated guess ends the game, records stats once, prevents more submissions, centers the completion message in view, and displays a celebration. |
 | UI-06 | Fifth incorrect attempt | The fifth wrong guess ends the game, displays the answer only after the loss, and records a loss once. |
 | UI-07 | Persistence and reset | Reloading restores valid same-day progress and statistics. Corrupt local storage resets safely with a user-visible message. The reset confirmation clears only statistics after confirmation. |
 | UI-08 | Daily rollover | A saved game from a previous UTC date does not affect the new puzzle. Countdown and date labels use UTC, including at the midnight boundary. |

@@ -34,6 +34,10 @@
   --locked: #322722;
   --focus-ring: #78e7ff;
   --scene-overlay: rgb(21 61 45 / 16%);
+  --scene-background: url("/terraria-forest-background.png");
+  --frame-top-image: url("/terraria-frame-top.png");
+  --frame-middle-image: url("/terraria-frame-middle.png");
+  --frame-bottom-image: url("/terraria-frame-bottom.png");
 }
 
 @theme inline {
@@ -76,6 +80,10 @@
   --locked: #2c2423;
   --focus-ring: #8eeaff;
   --scene-overlay: rgb(8 17 47 / 54%);
+  --scene-background: url("/terraria-cavern-night-background.png");
+  --frame-top-image: url("/terraria-mushroom-frame-top.png");
+  --frame-middle-image: url("/terraria-cavern-stone-tile.png");
+  --frame-bottom-image: url("/terraria-cavern-stone-tile.png");
 }
 
 * {
@@ -107,7 +115,7 @@ img,
   isolation: isolate;
   min-height: 100vh;
   overflow: hidden;
-  background: url("/terraria-forest-background.png") center / cover fixed no-repeat;
+  background: var(--scene-background) center / cover fixed no-repeat;
 }
 
 .game-shell::before,
@@ -151,10 +159,10 @@ img,
   z-index: -1;
   content: "";
   pointer-events: none;
-  /* Three repeatable pixel-art bands form the full dirt panel. */
+  /* Three repeatable pixel-art bands form the themed panel frame. */
   background-image:
-    url("/terraria-frame-top.png"),
-    url("/terraria-frame-bottom.png");
+    var(--frame-top-image),
+    var(--frame-bottom-image);
   background-position:
     center top,
     center bottom;
@@ -172,14 +180,14 @@ img,
   z-index: -2;
   content: "";
   pointer-events: none;
-  background: url("/terraria-frame-middle.png") center / clamp(4.5rem, 8vw, 6.5rem) clamp(4.5rem, 8vw, 6.5rem) repeat;
+  background: var(--frame-middle-image) center / clamp(4.5rem, 8vw, 6.5rem) clamp(4.5rem, 8vw, 6.5rem) repeat;
   box-shadow: 0 1.3rem 2.6rem rgb(19 28 32 / 44%);
 }
 
 .game-content > header {
   position: relative;
   min-height: 9.25rem;
-  padding: 1.35rem 7rem 1.15rem;
+  padding: 1.35rem 1.5rem 1.15rem;
   border: 0.25rem solid var(--terraria-earth-dark);
   border-radius: 0;
   background:
@@ -248,6 +256,13 @@ img,
   transition: filter 120ms ease, transform 120ms ease, box-shadow 120ms ease;
 }
 
+.theme-toggle-position {
+  position: fixed;
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  z-index: 10;
+}
+
 .theme-toggle:hover {
   filter: brightness(1.16);
   transform: translateY(-0.08rem);
@@ -264,6 +279,28 @@ img,
   font-size: 1.15rem;
   line-height: 0.7;
   text-shadow: 0.08rem 0.08rem 0 var(--terraria-earth-dark);
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti__piece {
+  position: absolute;
+  top: -1.5rem;
+  width: 0.55rem;
+  height: 0.9rem;
+  animation: confetti-fall 3.8s cubic-bezier(0.18, 0.72, 0.28, 1) forwards;
+}
+
+@keyframes confetti-fall {
+  to {
+    transform: translate3d(var(--confetti-drift), 110vh, 0) rotate(720deg);
+  }
 }
 
 .game-card {
@@ -442,6 +479,11 @@ img,
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
+  .confetti__piece {
+    animation: none;
+    top: 20%;
+  }
 }
 
 @media (max-width: 40rem) {
@@ -459,7 +501,7 @@ img,
 
   .game-content > header {
     min-height: 8.8rem;
-    padding: 1.35rem 4.3rem 1rem 1rem;
+    padding: 1.35rem 1rem 1rem;
   }
 
   .game-logo {
